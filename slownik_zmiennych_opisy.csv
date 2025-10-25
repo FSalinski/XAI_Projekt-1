@@ -1,0 +1,218 @@
+Zmienna,Obszar,Krótki opis
+formaWlasnosci_Symbol,Forma Własności,"Symbol określający formę własności podmiotu (np. państwowa, prywatna)."
+pkdKod,PKD kod,Kod PKD wskazujący dominujący rodzaj działalności gospodarczej.
+Pozostale_rezerwy,Pozycja RZiS,Zmiany w rezerwach ujmowane w kosztach operacyjnych.
+Pozostale_rezerwy_krotkie,Pozycja RZiS,Zmiany w rezerwach ujmowane w kosztach operacyjnych.
+amortyzacja,Pozycja RZiS,Koszt rozłożenia w czasie wartości środków trwałych i WNiP.
+dotacje,Pozycja RZiS,Bezzwrotne środki otrzymane ze źródeł publicznych lub prywatnych.
+dywidendy_udzialy,Pozycja RZiS,Przychody z tytułu udziału w zyskach innych podmiotów.
+koszty_finansowe,Pozycja RZiS,"Koszty działalności finansowej (odsetki, różnice kursowe itp.)."
+koszty_odsetki,Pozycja RZiS,Koszty odsetkowe wynikające z finansowania dłużnego.
+koszty_ogolnego_zarzadu,Pozycja RZiS,Koszty administracyjne i ogólnego zarządu.
+koszty_operacyjne,Pozycja RZiS,Koszty bieżącej działalności operacyjnej jednostki.
+koszty_operacyjne_pozostale,Pozycja RZiS,Pozycja rachunku zysków i strat: koszty operacyjne pozostale.
+koszty_sprzedanych_produktow,Pozycja RZiS,Koszt wytworzenia sprzedanych produktów lub koszt towarów sprzedanych.
+koszty_sprzedazy,Pozycja RZiS,"Koszty związane z procesem sprzedaży (np. marketing, dystrybucja)."
+podatek_dochodowy,Pozycja RZiS,Obciążenie z tytułu podatku dochodowego od wyniku brutto.
+pozostale_przychody_oper,Pozycja RZiS,Przychody operacyjne inne niż ze sprzedaży podstawowej.
+przychody,Pozycja RZiS,Łączna wartość uzyskanych przychodów z działalności jednostki w okresie.
+przychody_finansowe,Pozycja RZiS,"Przychody z działalności finansowej (odsetki, dywidendy itp.)."
+przychody_odsetki,Pozycja RZiS,"Przychody odsetkowe z lokat, pożyczek lub innych instrumentów."
+przychody_sprzedazy,Pozycja RZiS,"Wartość przychodów ze sprzedaży produktów, towarów lub usług."
+zysk_brutto,Pozycja RZiS,Wynik przed opodatkowaniem.
+zysk_netto,Pozycja RZiS,Końcowy wynik finansowy po opodatkowaniu.
+zysk_operacyjny,Pozycja RZiS,Wynik na działalności operacyjnej (EBIT).
+zysk_sprzedazy,Pozycja RZiS,Wynik na sprzedaży po odjęciu kosztów sprzedanych produktów/towarów.
+RP_amortyzacja,Pozycja Rachunku Przepływów,Pozycja rachunku przepływów pieniężnych: RP amortyzacja.
+RP_przeplywy_operacyjne,Pozycja Rachunku Przepływów,Pozycja rachunku przepływów pieniężnych: RP przeplywy operacyjne.
+Aktywa,Pozycja bilansu,Pozycja bilansowa: Aktywa.
+Aktywa_obrotowe,Pozycja bilansu,Pozycja bilansowa: Aktywa obrotowe.
+Aktywa_trwale,Pozycja bilansu,Pozycja bilansowa: Aktywa trwale.
+Inne_rozliczenia_miedzyokresowe,Pozycja bilansu,Pozostałe rozliczenia międzyokresowe w bilansie.
+Inne_rozliczenia_miedzyokresowe_dlugie,Pozycja bilansu,Inne rozliczenia międzyokresowe o horyzoncie powyżej 12 miesięcy.
+Inne_rozliczenia_miedzyokresowe_krotkie,Pozycja bilansu,Inne rozliczenia międzyokresowe o horyzoncie do 12 miesięcy.
+Inne_zobowiazania_fin_dlugoterminowe,Pozycja bilansu,Zobowiązania o terminie wymagalności powyżej 12 miesięcy.
+Inne_zobowiazania_fin_krotkoterminowe,Pozycja bilansu,Zobowiązania o terminie wymagalności do 12 miesięcy.
+Inwestycje_dlugoterminowe,Pozycja bilansu,"Inwestycje długoterminowe (udziały, papiery długoterminowe)."
+Inwestycje_krotkoterminowe,Pozycja bilansu,"Inwestycje krótkoterminowe (np. papiery wartościowe, lokaty)."
+Kapital_podstawowy,Pozycja bilansu,Pozycja bilansowa: Kapital podstawowy.
+Kapital_wlasny,Pozycja bilansu,Pozycja bilansowa: Kapital wlasny.
+Kapital_zapasowy,Pozycja bilansu,Pozycja bilansowa: Kapital zapasowy.
+Kredyty_pozyczki,Pozycja bilansu,Łączna wartość kredytów i pożyczek.
+Kredyty_pozyczki_dlugie,Pozycja bilansu,Kredyty i pożyczki długoterminowe.
+Kredyty_pozyczki_krotkie,Pozycja bilansu,Kredyty i pożyczki krótkoterminowe.
+Naleznosci_dlugoterminowe,Pozycja bilansu,Należności o terminie spłaty powyżej 12 miesięcy.
+Naleznosci_dostaw_uslug_12m,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Naleznosci_dostaw_uslug_12m_kapitale,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Naleznosci_dostaw_uslug_12m_powiazane,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Naleznosci_dostaw_uslug_12m_pozostale,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Naleznosci_dostaw_uslug_pow12m,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Naleznosci_dostaw_uslug_pow12m_kapitale,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Naleznosci_dostaw_uslug_pow12m_powiazane,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Naleznosci_dostaw_uslug_pow12m_pozostale,Pozycja bilansu,Należności z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Naleznosci_dostaw_uslug_pozostale_sadowe,Pozycja bilansu,Należności od kontrahentów i innych podmiotów wynikające z działalności.
+Naleznosci_krotkoterminowe,Pozycja bilansu,Należności o terminie spłaty do 12 miesięcy.
+Rezerwa_na_swiadczenia_emerytalne,Pozycja bilansu,Pozycja bilansowa: Rezerwa na swiadczenia emerytalne.
+Rezerwa_na_swiadczenia_emerytalne_dlugie,Pozycja bilansu,Pozycja bilansowa: Rezerwa na swiadczenia emerytalne dlugie.
+Rezerwa_na_swiadczenia_emerytalne_krotkie,Pozycja bilansu,Pozycja bilansowa: Rezerwa na swiadczenia emerytalne krotkie.
+Rezerwa_z_tytulu_odroczonego_podatku_dochodowego,Pozycja bilansu,Pozycja bilansowa: Rezerwa z tytulu odroczonego podatku dochodowego.
+Rezerwy_na_zobowiazania,Pozycja bilansu,Łączna wartość rezerw ujętych po stronie pasywów.
+Rozliczenia_miedzyokresowe_b,Pozycja bilansu,Pozycja bilansowa: Rozliczenia miedzyokresowe b.
+Rozliczenia_miedzyokresowe_dlugie,Pozycja bilansu,Pozycja bilansowa: Rozliczenia miedzyokresowe dlugie.
+Rozliczenia_miedzyokresowe_krotkie,Pozycja bilansu,Pozycja bilansowa: Rozliczenia miedzyokresowe krotkie.
+Rzeczowe_aktywa_trwale,Pozycja bilansu,Pozycja bilansowa: Rzeczowe aktywa trwale.
+Srodki_pieniezne,Pozycja bilansu,Pozycja bilansowa: Srodki pieniezne.
+Srodki_trwale,Pozycja bilansu,Pozycja bilansowa: Srodki trwale.
+Ujemna_wartosc_firmy,Pozycja bilansu,Pozycja bilansowa: Ujemna wartosc firmy.
+Wartosc_firmy,Pozycja bilansu,Pozycja bilansowa: Wartosc firmy.
+Wartosci_niematerialne_prawne,Pozycja bilansu,Pozycja bilansowa: Wartosci niematerialne prawne.
+Zapasy,Pozycja bilansu,Pozycja bilansowa: Zapasy.
+Zobowiazania_dlugoterminowe,Pozycja bilansu,Zobowiązania o terminie wymagalności powyżej 12 miesięcy.
+Zobowiazania_dostaw_uslug_12m,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Zobowiazania_dostaw_uslug_12m_kapitale,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Zobowiazania_dostaw_uslug_12m_powiazane,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Zobowiazania_dostaw_uslug_12m_pozostale,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne w ciągu 12 miesięcy.
+Zobowiazania_dostaw_uslug_pow12m,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Zobowiazania_dostaw_uslug_pow12m_kapitale,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Zobowiazania_dostaw_uslug_pow12m_powiazane,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Zobowiazania_dostaw_uslug_pow12m_pozostale,Pozycja bilansu,Zobowiązania z tytułu dostaw i usług wymagalne powyżej 12 miesięcy.
+Zobowiazania_krotkoterminowe,Pozycja bilansu,Zobowiązania o terminie wymagalności do 12 miesięcy.
+Zobowiazania_rezerwy,Pozycja bilansu,Łączna wartość rezerw ujętych po stronie pasywów.
+Zysk_netto,Pozycja bilansu,Pozycja bilansowa: Zysk netto.
+szczegolnaFormaPrawna_Symbol,szczególna forma prawna,Symbol identyfikujący szczególną formę prawną podmiotu.
+wsk_ROA,wskaźnik finansowy,ROA – rentowność aktywów.
+wsk_ROA_operacyjny,wskaźnik finansowy,ROA operacyjny – rentowność aktywów liczona wynikiem operacyjnym.
+wsk_ROE,wskaźnik finansowy,ROE – rentowność kapitału własnego.
+wsk_ROE_brutto,wskaźnik finansowy,ROE brutto – rentowność kapitału własnego przed opodatkowaniem.
+wsk_ROS,wskaźnik finansowy,ROS – rentowność sprzedaży (zysk do przychodów).
+wsk_Zobowiazania_dlugoterminowe,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_Zobowiazania dlugoterminowe.
+wsk_Zobowiazania_krotkoterminowe,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_Zobowiazania krotkoterminowe.
+wsk_akt_generowania_got_1,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_akt generowania got 1.
+wsk_akt_generowania_got_2,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_akt generowania got 2.
+wsk_amortyzacja,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_amortyzacja.
+wsk_cykl_konwersji_gotowki,wskaźnik finansowy,Cykl konwersji gotówki – czas od wydatku gotówki do jej odzyskania ze sprzedaży.
+wsk_cykl_operacyjny,wskaźnik finansowy,Cykl operacyjny – czas obrotu zapasami i należnościami do momentu inkasa.
+wsk_ebit,wskaźnik finansowy,EBIT – wynik na działalności operacyjnej.
+wsk_ebitda_1,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_2,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_3,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_aktywa_1,wskaźnik finansowy,Relacja EBITDA do aktywów – efektywność operacyjna majątku.
+wsk_ebitda_aktywa_2,wskaźnik finansowy,Relacja EBITDA do aktywów – efektywność operacyjna majątku.
+wsk_ebitda_aktywa_3,wskaźnik finansowy,Relacja EBITDA do aktywów – efektywność operacyjna majątku.
+wsk_ebitda_koszty_finansowe_1,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_koszty_finansowe_2,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_koszty_finansowe_3,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_koszty_odsetkowe_1,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_koszty_odsetkowe_2,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_koszty_odsetkowe_3,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_ebitda_zobowiazan_1,wskaźnik finansowy,Relacja EBITDA do zobowiązań – zdolność spłaty zadłużenia z wyniku operacyjnego.
+wsk_ebitda_zobowiazan_2,wskaźnik finansowy,Relacja EBITDA do zobowiązań – zdolność spłaty zadłużenia z wyniku operacyjnego.
+wsk_ebitda_zobowiazan_3,wskaźnik finansowy,Relacja EBITDA do zobowiązań – zdolność spłaty zadłużenia z wyniku operacyjnego.
+wsk_ebitda_zobowiazan_odsetki_1,wskaźnik finansowy,Relacja EBITDA do zobowiązań i kosztów odsetkowych – zdolność obsługi długu.
+wsk_ebitda_zobowiazan_odsetki_2,wskaźnik finansowy,Relacja EBITDA do zobowiązań i kosztów odsetkowych – zdolność obsługi długu.
+wsk_ebitda_zobowiazan_odsetki_3,wskaźnik finansowy,Relacja EBITDA do zobowiązań i kosztów odsetkowych – zdolność obsługi długu.
+wsk_ebitda_zobowiazan_odsetki_4,wskaźnik finansowy,Relacja EBITDA do zobowiązań i kosztów odsetkowych – zdolność obsługi długu.
+wsk_efekt_dzwigni_fin_1,wskaźnik finansowy,Efekt dźwigni finansowej – wpływ struktury finansowania na rentowność kapitału.
+wsk_efekt_dzwigni_fin_2,wskaźnik finansowy,Efekt dźwigni finansowej – wpływ struktury finansowania na rentowność kapitału.
+wsk_fin_majatku_kapitalem,wskaźnik finansowy,Wskaźnik struktury finansowania – udział poszczególnych źródeł w finansowaniu majątku.
+wsk_kapital_do_aktywa,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_kapital do aktywa.
+wsk_koszt_długu_1,wskaźnik finansowy,Średni koszt długu – przeciętne oprocentowanie zobowiązań odsetkowych.
+wsk_koszt_długu_2,wskaźnik finansowy,Średni koszt długu – przeciętne oprocentowanie zobowiązań odsetkowych.
+wsk_koszty_fin_przychody,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_koszty fin przychody.
+wsk_koszty_odsetki_przychody,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_koszty odsetki przychody.
+wsk_koszty_operacyjne,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_koszty operacyjne.
+wsk_koszty_przychody,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_koszty przychody.
+wsk_liczba_dni_istnienia,wskaźnik finansowy,Liczba dni działalności jednostki w analizowanym okresie.
+wsk_marza_brutto_1,wskaźnik finansowy,Marża brutto – udział zysku brutto ze sprzedaży w przychodach.
+wsk_marza_brutto_2,wskaźnik finansowy,Marża brutto – udział zysku brutto ze sprzedaży w przychodach.
+wsk_marza_ebit,wskaźnik finansowy,Marża EBIT – relacja wyniku operacyjnego do przychodów ze sprzedaży.
+wsk_marza_ebitda_1,wskaźnik finansowy,Marża EBITDA – relacja EBITDA do przychodów ze sprzedaży.
+wsk_marza_ebitda_2,wskaźnik finansowy,Marża EBITDA – relacja EBITDA do przychodów ze sprzedaży.
+wsk_marza_ebitda_3,wskaźnik finansowy,Marża EBITDA – relacja EBITDA do przychodów ze sprzedaży.
+wsk_mnoznik_kap_wl,wskaźnik finansowy,Mnożnik kapitału własnego – lewarowanie aktywów kapitałem własnym.
+wsk_obrotowosc_gotowkowa,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_obrotowsci_naleznosci,wskaźnik finansowy,Rotacja należności – szybkość ściągania należności od odbiorców.
+wsk_ogolnego_zadluzenia_1,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_ogolnego_zadluzenia_2,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_ogolnego_zadluzenia_pozyczki,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_plynnosc_biez_1,wskaźnik finansowy,Wskaźnik płynności bieżącej – relacja aktywów obrotowych do zobowiązań krótkoterminowych.
+wsk_plynnosc_biez_2,wskaźnik finansowy,Wskaźnik płynności bieżącej – relacja aktywów obrotowych do zobowiązań krótkoterminowych.
+wsk_plynnosc_biez_3,wskaźnik finansowy,Wskaźnik płynności bieżącej – relacja aktywów obrotowych do zobowiązań krótkoterminowych.
+wsk_plynnosc_gotowkowa_1,wskaźnik finansowy,Wskaźnik płynności gotówkowej – udział środków pieniężnych w pokryciu zobowiązań bieżących.
+wsk_plynnosc_szybka_1,wskaźnik finansowy,Wskaźnik płynności szybki – zdolność spłaty bieżących zobowiązań aktywami najbardziej płynnymi.
+wsk_plynnosc_szybka_2,wskaźnik finansowy,Wskaźnik płynności szybki – zdolność spłaty bieżących zobowiązań aktywami najbardziej płynnymi.
+wsk_pokrycia_odsetek_zyskiem,wskaźnik finansowy,Pokrycie odsetek zyskiem – relacja wyniku do kosztów odsetkowych.
+wsk_pokrycia_zobowiazan_rz_aktywami_trwalymi,wskaźnik finansowy,Pokrycie zobowiązań rzeczowymi aktywami trwałymi – zabezpieczenie pasywów majątkiem trwałym.
+wsk_pokrycie_aktywow_kap_stalym,wskaźnik finansowy,Pokrycie aktywów kapitałem – stopień finansowania aktywów kapitałem stałym.
+wsk_pokrycie_aktywow_tr_kapitalem_st,wskaźnik finansowy,Pokrycie aktywów kapitałem – stopień finansowania aktywów kapitałem stałym.
+wsk_pokrycie_wyd_fin_gotowkowe_1,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_pokrycie wyd fin gotowkowe 1.
+wsk_pokrycie_wyd_fin_gotowkowe_2,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_pokrycie wyd fin gotowkowe 2.
+wsk_pokrycie_zob_kr_gotowkowe_1,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_pokrycie zob kr gotowkowe 1.
+wsk_pokrycie_zob_kr_gotowkowe_2,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_pokrycie zob kr gotowkowe 2.
+wsk_poziom_kapitalu_obrotowego_netto,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_poziom_kosztow_finansowych,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_poziom kosztow finansowych.
+wsk_poziom_kosztow_operacyjnych,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_poziom kosztow operacyjnych.
+wsk_rent_kapitalu,wskaźnik finansowy,Wskaźnik rentowności – efektywność generowania zysku względem bazy odniesienia.
+wsk_rent_kaptial_podstawowy,wskaźnik finansowy,Wskaźnik rentowności – efektywność generowania zysku względem bazy odniesienia.
+wsk_rent_operacyjna,wskaźnik finansowy,Wskaźnik rentowności – efektywność generowania zysku względem bazy odniesienia.
+wsk_rent_operacyjna_aktywow,wskaźnik finansowy,Wskaźnik rentowności – efektywność generowania zysku względem bazy odniesienia.
+wsk_rent_sprzedazy,wskaźnik finansowy,Wskaźnik rentowności – efektywność generowania zysku względem bazy odniesienia.
+wsk_rotacja_aktywow_1,wskaźnik finansowy,Rotacja aktywów – efektywność wykorzystania majątku w generowaniu sprzedaży.
+wsk_rotacja_aktywow_2,wskaźnik finansowy,Rotacja aktywów – efektywność wykorzystania majątku w generowaniu sprzedaży.
+wsk_rotacja_naleznosci,wskaźnik finansowy,Rotacja należności – szybkość ściągania należności od odbiorców.
+wsk_rotacja_naleznosci_dostaw_uslug,wskaźnik finansowy,Rotacja należności – szybkość ściągania należności od odbiorców.
+wsk_rotacja_rz_aktywow_trwalych,wskaźnik finansowy,Rotacja aktywów – efektywność wykorzystania majątku w generowaniu sprzedaży.
+wsk_rotacja_wartosci_niewaterialnych,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_rotacja_zapasow,wskaźnik finansowy,Rotacja zapasów – szybkość zużycia lub sprzedaży zapasów.
+wsk_rotacja_zobowiazan,wskaźnik finansowy,Rotacja zobowiązań – tempo spłaty zobowiązań wobec dostawców.
+wsk_rotacja_zobowiazan_dostaw_uslug,wskaźnik finansowy,Rotacja zobowiązań – tempo spłaty zobowiązań wobec dostawców.
+wsk_s_ROA,wskaźnik finansowy,ROA – rentowność aktywów.
+wsk_s_ROE,wskaźnik finansowy,ROE – rentowność kapitału własnego.
+wsk_sprzedaz_kap_obrotowy,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_stopa_marzy_brutto,wskaźnik finansowy,Marża brutto – udział zysku brutto ze sprzedaży w przychodach.
+wsk_stopa_zysku_sprzedaz,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_stopa zysku sprzedaz.
+wsk_struktura_kap_obcego_s,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_struktura kap obcego s.
+wsk_struktura_kap_wlasnego_1,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_struktura kap wlasnego 1.
+wsk_struktura_kap_wlasnego_2,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_struktura kap wlasnego 2.
+wsk_struktura_kap_wlasnego_s_1,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_struktura kap wlasnego s 1.
+wsk_struktura_kap_wlasnego_s_2,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_struktura kap wlasnego s 2.
+wsk_struktura_majatku,wskaźnik finansowy,Wskaźnik struktury finansowania – udział poszczególnych źródeł w finansowaniu majątku.
+wsk_struktury_finansowania,wskaźnik finansowy,Wskaźnik struktury finansowania – udział poszczególnych źródeł w finansowaniu majątku.
+wsk_struktury_kapitalu,wskaźnik finansowy,Wskaźnik struktury finansowania – udział poszczególnych źródeł w finansowaniu majątku.
+wsk_sytuacji_fin,wskaźnik finansowy,Złożony wskaźnik sytuacji finansowej – syntetyczna ocena kondycji.
+wsk_udzial_kap_obrotowego_w_fin,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_udzial_kap_wlasnego_aktywa_1,wskaźnik finansowy,Udział kapitału własnego w aktywach – struktura finansowania majątku.
+wsk_udzial_kap_wlasnego_aktywa_2,wskaźnik finansowy,Udział kapitału własnego w aktywach – struktura finansowania majątku.
+wsk_udzial_kapitalu_obrotowego_netto,wskaźnik finansowy,Wskaźnik rotacji – tempo obrotu wybranej kategorii w okresie.
+wsk_udzial_zapasy_kap_obrotowy,wskaźnik finansowy,Rotacja zapasów – szybkość zużycia lub sprzedaży zapasów.
+wsk_udzial_zapasy_zobowiazania,wskaźnik finansowy,Udział zapasów – rola zapasów w kapitale obrotowym lub zobowiązaniach.
+wsk_udzial_zob_biez_aktywa_1,wskaźnik finansowy,Udział zobowiązań bieżących – udział krótkoterminowych zobowiązań w aktywach lub sprzedaży.
+wsk_udzial_zob_biez_aktywa_2,wskaźnik finansowy,Udział zobowiązań bieżących – udział krótkoterminowych zobowiązań w aktywach lub sprzedaży.
+wsk_udzial_zob_biez_sprzedaz_1,wskaźnik finansowy,Udział zobowiązań bieżących – udział krótkoterminowych zobowiązań w aktywach lub sprzedaży.
+wsk_udzial_zob_biez_sprzedaz_2,wskaźnik finansowy,Udział zobowiązań bieżących – udział krótkoterminowych zobowiązań w aktywach lub sprzedaży.
+wsk_zadluzenia,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenia_dlugie,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenia_gotowki_1,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenia_gotowki_2,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenia_krotkie,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenia_pozyczki_dlugie,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenie_gotowka,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zadluzenie_kap_wlasnego,wskaźnik finansowy,Wskaźnik zadłużenia – udział zobowiązań w finansowaniu majątku lub kapitału.
+wsk_zast_kapitalu_obcego,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zast kapitalu obcego.
+wsk_zast_kapitalu_podstawowego,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zast kapitalu podstawowego.
+wsk_zast_kapitalu_stalego,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zast kapitalu stalego.
+wsk_zast_kapitalu_wlasnego,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zast kapitalu wlasnego.
+wsk_zob_dlugoterminowe_aktywa_rzeczowe,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zob dlugoterminowe aktywa rzeczowe.
+wsk_zob_oprocentowanych,wskaźnik finansowy,Udział/relacja zobowiązań oprocentowanych – ekspozycja na finansowanie dłużne.
+wsk_zob_oprocentowanych_aktywa_rzeczowe,wskaźnik finansowy,Udział/relacja zobowiązań oprocentowanych – ekspozycja na finansowanie dłużne.
+wsk_zob_s_aktywa_rzeczowe,wskaźnik finansowy,Wskaźnik finansowy zgodny z nazwą: wsk_zob s aktywa rzeczowe.
+wsk_zwrot_aktywa_mat,wskaźnik finansowy,Zwrot z aktywów materialnych/trwałych – efektywność wykorzystania wybranej klasy aktywów.
+wsk_zwrot_aktywa_trwale,wskaźnik finansowy,Zwrot z aktywów materialnych/trwałych – efektywność wykorzystania wybranej klasy aktywów.
+wsk_zysk_CF_operacyjny,wskaźnik finansowy,Relacja zysku do przepływów operacyjnych – powiązanie wyniku z gotówką.
+wsk_zysk_ebitda_1,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_zysk_ebitda_2,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_zysk_ebitda_3,wskaźnik finansowy,EBITDA – wynik operacyjny powiększony o amortyzację.
+wsk_zysk_op_zobowiazania,wskaźnik finansowy,Relacja zysku do zobowiązań – zdolność pokrywania pasywów wynikiem.
+wsk_zysk_operacyjny_zob_1,wskaźnik finansowy,Relacja zysku do zobowiązań – zdolność pokrywania pasywów wynikiem.
+wsk_zysk_operacyjny_zob_2,wskaźnik finansowy,Relacja zysku do zobowiązań – zdolność pokrywania pasywów wynikiem.
+wsk_zysk_zobowiazania,wskaźnik finansowy,Relacja zysku do zobowiązań – zdolność pokrywania pasywów wynikiem.
