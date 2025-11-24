@@ -11,8 +11,9 @@ TARGET_COLUMN = 'default'
 #---------- PATH CONSTANTS ----------
 MODELS_PATH = os.path.join(PROJECT_ROOT, 'models')
 PLOTS_PATH = os.path.join(PROJECT_ROOT, 'plots')
-TRAIN_PATH = os.path.join(PROJECT_ROOT, 'data', 'train.csv')
-TEST_PATH = os.path.join(PROJECT_ROOT, 'data', 'test.csv')
+DATA_PATH = os.path.join(PROJECT_ROOT, 'data')
+TRAIN_PATH = os.path.join(DATA_PATH, 'train.csv')
+TEST_PATH = os.path.join(DATA_PATH, 'test.csv')
 TUNED_LR_MODEL_PATH = os.path.join(MODELS_PATH, 'tuned_logistic_regression.pkl')
 TUNED_RF_MODEL_PATH = os.path.join(MODELS_PATH, 'tuned_random_forest.pkl')
 CALIBRATED_LR_MODEL_PATH = os.path.join(MODELS_PATH, 'calibrated_logistic_regression.pkl')
