@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import pickle
-from sklearn.metrics import accuracy_score, roc_auc_score
+from sklearn.metrics import recall_score, roc_auc_score
 
 def find_correlated_pairs(corr, threshold=0.75):
     correlated_pairs = []
@@ -36,8 +36,8 @@ def load_model(filepath):
         model = pickle.load(f)
     return model
 
-def evaluate_baseline_model(model, X_test, y_test):
+def evaluate_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
     roc_auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
-    return accuracy, roc_auc
+    return recall, roc_auc

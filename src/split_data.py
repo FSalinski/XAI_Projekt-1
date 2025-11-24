@@ -5,7 +5,7 @@ Script for splitting data into training, validation, and test sets
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import logging
-from constants import RANDOM_STATE
+from constants import RANDOM_STATE, TEST_SIZE
 
 def main():
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -19,7 +19,7 @@ def main():
     y = df['default']
 
     # Split data into training+validation and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=RANDOM_STATE, stratify=y)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y)
 
     logging.info("Data split into training and testing sets")
 
