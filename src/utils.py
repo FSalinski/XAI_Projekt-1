@@ -5,30 +5,7 @@ from sklearn.calibration import calibration_curve
 from sklearn.metrics import recall_score, roc_auc_score, brier_score_loss, log_loss
 from .constants import TRAIN_PATH, TEST_PATH, TARGET_COLUMN
 
-def find_correlated_pairs(corr, threshold=0.75):
-    correlated_pairs = []
-    for i in range(len(corr.columns)):
-        for j in range(i):
-            if abs(corr.iloc[i, j]) > threshold and i != j:
-                correlated_pairs.append((corr.columns[i], corr.columns[j], corr.iloc[i, j]))
-    return correlated_pairs
-
-def remove_correlated_features(df, correlated_pairs):
-    features_to_remove = []
-    for feature1, feature2, _ in correlated_pairs:
-        if feature2 not in features_to_remove and feature1 not in features_to_remove:
-            features_to_remove.append(feature2)
-    return df.drop(columns=features_to_remove)
-
-def remove_all_correlated_features(df, threshold=0.75):
-    while True:
-        corr = df.corr(numeric_only=True)
-        correlated_pairs = find_correlated_pairs(corr, threshold)
-        if not correlated_pairs: # if no more correlated pairs, break
-            break
-        df = remove_correlated_features(df, correlated_pairs)
-    return df
-
+# ---------- MODEL UTILS ----------
 def save_model(model, filepath):
     with open(filepath, 'wb') as f:
         pickle.dump(model, f)
@@ -44,6 +21,7 @@ def evaluate_model(model, X_test, y_test):
     roc_auc = roc_auc_score(y_test, model.predict_proba(X_test)[:, 1])
     return recall, roc_auc
 
+# ---------- DATA LOADING UTILS ----------
 def load_train_test_data(train_path=TRAIN_PATH, test_path=TEST_PATH, target_column=TARGET_COLUMN):
     train_df = pd.read_csv(train_path)
     test_df = pd.read_csv(test_path)
