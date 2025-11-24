@@ -5,10 +5,10 @@ from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 
-from .utils import evaluate_model, load_train_test_data, save_model
-from .data_processing import data_processing_pipeline_rf
+from utils import evaluate_model, load_train_test_data, save_model
+from data_processing import data_processing_pipeline_rf
 import logging
-from .constants import RANDOM_STATE, MODELS_PATH, TUNED_RF_MODEL_PATH
+from constants import RANDOM_STATE, MODELS_PATH, TUNED_RF_MODEL_PATH
 import os
 import optuna
 

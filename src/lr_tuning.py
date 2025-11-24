@@ -5,10 +5,10 @@ from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 
-from .utils import evaluate_model, save_model, load_train_test_data
-from .data_processing import data_processing_pipeline_lr
+from utils import evaluate_model, save_model, load_train_test_data
+from data_processing import data_processing_pipeline_lr
 import logging
-from .constants import RANDOM_STATE, MODELS_PATH, TUNED_LR_MODEL_PATH
+from constants import RANDOM_STATE, MODELS_PATH, TUNED_LR_MODEL_PATH
 import os
 import optuna
 

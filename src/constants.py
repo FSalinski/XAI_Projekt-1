@@ -8,10 +8,11 @@ RANDOM_STATE = 2137
 TEST_SIZE = 0.3
 TARGET_COLUMN = 'default'
 
+MODELS_PATH = os.path.join(PROJECT_ROOT, 'models')
+PLOTS_PATH = os.path.join(PROJECT_ROOT, 'plots')
 TRAIN_PATH = os.path.join(PROJECT_ROOT, 'data', 'train.csv')
 TEST_PATH = os.path.join(PROJECT_ROOT, 'data', 'test.csv')
-MODELS_PATH = os.path.join(PROJECT_ROOT, 'models')
-TUNED_LR_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'tuned_logistic_regression.pkl')
-TUNED_RF_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'tuned_random_forest.pkl')
-CALIBRATED_LR_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'calibrated_logistic_regression.pkl')
-CALIBRATED_RF_MODEL_PATH = os.path.join(PROJECT_ROOT, 'models', 'calibrated_random_forest.pkl')
+TUNED_LR_MODEL_PATH = os.path.join(MODELS_PATH, 'tuned_logistic_regression.pkl')
+TUNED_RF_MODEL_PATH = os.path.join(MODELS_PATH, 'tuned_random_forest.pkl')
+CALIBRATED_LR_MODEL_PATH = os.path.join(MODELS_PATH, 'calibrated_logistic_regression.pkl')
+CALIBRATED_RF_MODEL_PATH = os.path.join(MODELS_PATH, 'calibrated_random_forest.pkl')

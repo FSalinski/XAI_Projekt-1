@@ -3,7 +3,7 @@ import numpy as np
 import pickle
 from sklearn.calibration import calibration_curve
 from sklearn.metrics import recall_score, roc_auc_score, brier_score_loss, log_loss
-from .constants import TRAIN_PATH, TEST_PATH, TARGET_COLUMN
+from constants import TRAIN_PATH, TEST_PATH, TARGET_COLUMN
 
 # ---------- MODEL UTILS ----------
 def save_model(model, filepath):
