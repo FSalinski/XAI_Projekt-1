@@ -3,7 +3,9 @@ import os
 # Get the project root directory (parent of src/)
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-RANDOM_STATE = 2137
+#---------- GENERAL CONSTANTS ----------
+
+RANDOM_STATE = 2137 # random seed used throughout the whole project for reproducibility
 
 TEST_SIZE = 0.3
 TARGET_COLUMN = 'default'
