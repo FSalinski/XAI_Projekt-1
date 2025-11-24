@@ -10,10 +10,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from utils import remove_all_correlated_features, evaluate_model, save_model
-from data_processing import data_processing_pipeline_lr
+from .utils import remove_all_correlated_features, evaluate_model, save_model
+from .data_processing import data_processing_pipeline_lr
 import logging
-from constants import RANDOM_STATE, TEST_SIZE
+from .constants import RANDOM_STATE, TEST_SIZE
 import os
 
 CORR_THRESHOLD = 0.75

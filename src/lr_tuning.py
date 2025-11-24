@@ -1,15 +1,14 @@
 import pandas as pd
 import numpy as np
-import pickle
 
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 
-from utils import evaluate_model, save_model, load_model
-from data_processing import data_processing_pipeline_lr
+from .utils import evaluate_model, save_model, load_train_test_data
+from .data_processing import data_processing_pipeline_lr
 import logging
-from constants import RANDOM_STATE, TEST_SIZE
+from .constants import RANDOM_STATE, MODELS_PATH, TUNED_LR_MODEL_PATH
 import os
 import optuna
 
@@ -21,7 +20,7 @@ N_SPLITS = 5
 
 def main():
     # Set up save directory
-    os.makedirs('./models', exist_ok=True)
+    os.makedirs(MODELS_PATH, exist_ok=True)
 
     # Set up logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -30,12 +29,7 @@ def main():
     logging.info("Starting Logistic Regression hyperparameter tuning with Optuna")
 
     # Load data
-    train = pd.read_csv('data/train.csv')
-    X_train = train.drop(columns=['default'])
-    y_train = train['default']
-    test = pd.read_csv('data/test.csv')
-    X_test = test.drop(columns=['default'])
-    y_test = test['default']
+    X_train, X_test, y_train, y_test = load_train_test_data()
 
     def objective(trial):
         # Suggest hyperparameters
@@ -103,8 +97,8 @@ def main():
     logging.info("Results on test set:")
     logging.info(f"Tuned Logistic Regression - Recall: {rec}, ROC AUC: {roc_auc}")
 
-    save_model(final_pipeline, './models/tuned_logistic_regression.pkl')
-    logging.info("Logistic Regression hyperparameter tuning completed. Saved tuned model in './models/tuned_logistic_regression.pkl'")
+    save_model(final_pipeline, TUNED_LR_MODEL_PATH)
+    logging.info(f"Logistic Regression hyperparameter tuning completed. Saved tuned model in '{TUNED_LR_MODEL_PATH}'")
     logging.info("=" * 50)
 
 

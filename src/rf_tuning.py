@@ -1,15 +1,14 @@
 import pandas as pd
 import numpy as np
-import pickle
 
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
 
-from utils import evaluate_model, save_model, load_model
-from data_processing import data_processing_pipeline_rf
+from .utils import evaluate_model, load_train_test_data, save_model
+from .data_processing import data_processing_pipeline_rf
 import logging
-from constants import RANDOM_STATE, TEST_SIZE
+from .constants import RANDOM_STATE, MODELS_PATH, TUNED_RF_MODEL_PATH
 import os
 import optuna
 
@@ -21,7 +20,7 @@ N_SPLITS = 5
 
 def main():
     # Set up save directory
-    os.makedirs('./models', exist_ok=True)
+    os.makedirs(MODELS_PATH, exist_ok=True)
     # Set up logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -29,12 +28,7 @@ def main():
     logging.info("Starting Random Forest hyperparameter tuning with Optuna")
 
     # Load data
-    train = pd.read_csv('data/train.csv')
-    X_train = train.drop(columns=['default'])
-    y_train = train['default']
-    test = pd.read_csv('data/test.csv')
-    X_test = test.drop(columns=['default'])
-    y_test = test['default']
+    X_train, X_test, y_train, y_test = load_train_test_data()
 
     def objective(trial):
         # Suggest hyperparameters
@@ -100,9 +94,9 @@ def main():
     logging.info("Results on test set:")
     logging.info(f"Tuned Random Forest - Recall: {rec}, ROC AUC: {roc_auc}")
 
-    save_model(final_pipeline, './models/tuned_random_forest.pkl')
+    save_model(final_pipeline, TUNED_RF_MODEL_PATH)
     
-    logging.info("Random Forest hyperparameter tuning completed. Saved tuned model in './models/tuned_random_forest.pkl'")
+    logging.info(f"Random Forest hyperparameter tuning completed. Saved tuned model in '{TUNED_RF_MODEL_PATH}'")
     logging.info("=" * 50)
 
 if __name__ == "__main__":
