@@ -8,6 +8,7 @@ RANDOM_STATE = 2137
 TEST_SIZE = 0.3
 TARGET_COLUMN = 'default'
 
+#---------- PATH CONSTANTS ----------
 MODELS_PATH = os.path.join(PROJECT_ROOT, 'models')
 PLOTS_PATH = os.path.join(PROJECT_ROOT, 'plots')
 TRAIN_PATH = os.path.join(PROJECT_ROOT, 'data', 'train.csv')

@@ -6,14 +6,12 @@ Script for training 4 baseline models:
  - Random Forest on reduced feature set (after removing pairwise correlated features)
 '''
 
-import pandas as pd
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from utils import evaluate_model, save_model
+from utils import evaluate_model, load_train_test_data, save_model
 from data_processing import data_processing_pipeline_lr
 import logging
-from constants import RANDOM_STATE, TEST_SIZE
+from constants import RANDOM_STATE
 import os
 
 CORR_THRESHOLD = 0.75
@@ -29,12 +27,7 @@ def main():
     logging.info("Starting baseline model training")
 
     # Load data
-    train = pd.read_csv('data/train.csv')
-    X_train = train.drop(columns=['default'])
-    y_train = train['default']
-    test = pd.read_csv('data/test.csv')
-    X_test = test.drop(columns=['default'])
-    y_test = test['default']
+    X_train, X_test, y_train, y_test = load_train_test_data()
 
     # Baseline data processing pipeline
     preprocessor = data_processing_pipeline_lr(X_train, corr_threshold=2)

@@ -1,6 +1,3 @@
-import pandas as pd
-import numpy as np
-
 from sklearn.model_selection import cross_val_score, StratifiedKFold
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline

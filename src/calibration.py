@@ -26,7 +26,6 @@ from constants import (
     TUNED_RF_MODEL_PATH,
     CALIBRATED_LR_MODEL_PATH, 
     CALIBRATED_RF_MODEL_PATH,
-    PROJECT_ROOT,
     PLOTS_PATH,
 )
 
