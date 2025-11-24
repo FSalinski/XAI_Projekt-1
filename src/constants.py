@@ -7,8 +7,8 @@ PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 RANDOM_STATE = 2137 # random seed used throughout the whole project for reproducibility
 
-TEST_SIZE = 0.3
-TARGET_COLUMN = 'default'
+TEST_SIZE = 0.3 # test set size for the initial train-test split (for calibration the test set is further split in two into validation and test)
+TARGET_COLUMN = 'default' # name of the target column in the dataset
 
 #---------- PATH CONSTANTS ----------
 MODELS_PATH = os.path.join(PROJECT_ROOT, 'models')
