@@ -238,7 +238,7 @@ def calculate_reliability_curve(y_true, y_proba, n_bins=10, strategy='uniform'):
     }
 
 
-def plot_reliability_curve(y_true, y_proba, n_bins=10, ax=None, label='Model'):
+def plot_reliability_curve(y_true, y_proba, n_bins=10, ax=None, label='Model', strategy='quantile'):
     """
     Plot reliability (calibration) curve.
     
@@ -254,6 +254,8 @@ def plot_reliability_curve(y_true, y_proba, n_bins=10, ax=None, label='Model'):
         Axis to plot on (creates new if None)
     label : str
         Label for the curve
+    strategy : str
+        'uniform' for equal-width bins, 'quantile' for equal-frequency bins
     
     Returns:
     --------
@@ -262,7 +264,7 @@ def plot_reliability_curve(y_true, y_proba, n_bins=10, ax=None, label='Model'):
     if ax is None:
         fig, ax = plt.subplots(figsize=(8, 8))
     
-    curve_data = calculate_reliability_curve(y_true, y_proba, n_bins=n_bins)
+    curve_data = calculate_reliability_curve(y_true, y_proba, n_bins=n_bins, strategy=strategy)
     
     # Plot calibration curve
     ax.plot(curve_data['mean_predicted'], curve_data['fraction_positive'], 
