@@ -13,8 +13,8 @@ from sklearn.ensemble import RandomForestClassifier
 from utils import remove_all_correlated_features, evaluate_model, save_model
 from data_processing import baseline_data_processing_pipeline
 import logging
+from constants import RANDOM_STATE
 
-RANDOM_STATE = 2137
 CORR_THRESHOLD = 0.75
 
 def main():
