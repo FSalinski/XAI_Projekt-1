@@ -75,11 +75,36 @@ Dzięki analizie danych zidentyfikowaliśmy kilka problemów, w tym występując
 
 Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem Optuny. Jako metrykę optymalizacji wybraliśmy ROC AUC.
 
+...
+
 ## Kalibracja
+
+W ramach projektu naszym zadaniem było również przeprowadzenie kalibracji modeli, do średniej PD równej 4%. Wykorzystaliśmy do tego kalibrację izotoniczną oraz sigmoid, dla obu modeli.
+
+![Kalibracja LR](plots/lr_calibration_comparison.png)
+![Kalibracja RF](plots/rf_calibration_comparison.png)
 
 ## Wyjaśnialność modeli
 
+W celu lepszego wyjaśnienia działania modeli, narysowaliśmy wykresy SHAP dla obu modeli, zarówno globalne (mean absolute SHAP i beeswarm), jak i lokalne (waterfall dla kilku przykładowych obserwacji).
+
+### Wyjaśnienia globalne dla regresji logistycznej
+
+![Shap LR values](plots/shap/lr_shap_bar.png)
+![Shap LR beeswarm](plots/shap/lr_shap_beeswarm.png)
+
+### Wyjaśnienia globalne dla lasu losowego
+
+![Shap RF values](plots/shap/rf_shap_bar.png)
+![Shap RF beeswarm](plots/shap/rf_shap_beeswarm.png)
+
+### Przykładowe wyjaśnienia lokalne
+
+...
+
 ## Dostosowanie progu decyzyjnego
+
+Ostatnim etapem tworzenia modelu było dostosowanie
 
 ## Mapowanie PD na ratingi
 
