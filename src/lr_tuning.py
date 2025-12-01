@@ -66,7 +66,7 @@ def main():
     study.optimize(objective, n_trials=N_TRIALS, show_progress_bar=True, n_jobs=-1)
     
     logging.info(f"Best trial: {study.best_trial.number}")
-    logging.info(f"Best ROC AUC: {study.best_value}")
+    logging.info(f"Best cross-validation mean ROC AUC: {study.best_value}")
     logging.info(f"Best hyperparameters: {study.best_params}")
     
     # Train final model with best hyperparameters

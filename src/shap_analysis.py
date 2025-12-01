@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import seaborn as sns
 import shap
 import matplotlib.pyplot as plt
 import logging
@@ -350,6 +351,7 @@ def analyze_shap_rf(X_train, X_test, y_test):
 def main():
     # Set up logging
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    sns.set_style("whitegrid")
     
     logging.info("=" * 50)
     logging.info("Starting SHAP analysis pipeline")
