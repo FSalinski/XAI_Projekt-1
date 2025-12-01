@@ -14,8 +14,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils import load_model, load_train_test_data
 from src.constants import (
-    TRAIN_PATH, 
-    TEST_PATH, 
+    TRAIN_PATH,
+    TRAIN_TRIMMED_PATH,
+    TEST_PATH,
+    TEST_TRIMMED_PATH,
     TUNED_LR_MODEL_PATH, 
     TUNED_RF_MODEL_PATH,
     PROJECT_ROOT,
@@ -358,8 +360,8 @@ def main():
     
     # Load data
     X_train, X_test, y_train, y_test = load_train_test_data(
-        train_path=TRAIN_PATH,
-        test_path=TEST_PATH,
+        train_path=TRAIN_TRIMMED_PATH,
+        test_path=TEST_TRIMMED_PATH,
     )
     logging.info(f"Loaded training data: {X_train.shape}, test data: {X_test.shape}")
     
