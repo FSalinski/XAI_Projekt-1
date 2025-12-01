@@ -10,28 +10,107 @@ Celem projektu jest stworzenie modelu ratingowego do predykcji defaultu kredytow
 
 ---
 
-## Wykorzystane technologie
+## Instalacja
 
-- Python
-- Biblioteki: pandas, numpy, scikit-learn, matplotlib, seaborn, shap, optuna
+### Opcja 1: Conda (zalecane)
+
+```bash
+# Utwórz środowisko z pliku environment.yml
+conda env create -f environment.yml
+
+# Aktywuj środowisko
+conda activate xai_projekt
+```
+
+### Opcja 2: pip
+
+```bash
+# Zainstaluj zależności z requirements.txt
+pip install -r requirements.txt
+```
+
+### Wymagania
+
+- Python 3.11+
+- Kluczowe biblioteki:
+  - scikit-learn (modele ML)
+  - optuna (tuning hiperparametrów)
+  - shap (wyjaśnialność)
+  - pandas, numpy (przetwarzanie danych)
+  - matplotlib, seaborn (wizualizacje)
+
+---
+
+## Struktura repozytorium
+
+```plaintext
+XAI_Projekt-1/
+│
+├── data/                          # Dane wejściowe i przetworzone
+│   ├── train.csv                  # Zbiór treningowy (po feature selection)
+│   ├── test.csv                   # Zbiór testowy (po feature selection)
+│   ├── zbiór_5.csv                # Oryginalny zbiór danych
+│   └── zbiór_5_preprocessed.csv   # Zbiór po wstępnym preprocessingu
+│
+├── src/                           # Skrypty Python
+│   ├── constants.py               # Stałe i konfiguracja projektu
+│   ├── utils.py                   # Funkcje pomocnicze
+│   ├── data_processing.py         # Pipeline'y preprocessingu danych
+│   ├── manual_preprocessing.py    # Ręczny preprocessing zbioru
+│   ├── split_data.py              # Podział danych train/test
+│   ├── feature_selection.py       # Selekcja cech (RFE)
+│   ├── baseline_models.py         # Trenowanie modeli bazowych
+│   ├── lr_tuning.py               # Tuning regresji logistycznej
+│   ├── rf_tuning.py               # Tuning lasu losowego
+│   ├── calibration.py             # Kalibracja modeli
+│   ├── threshold_selection.py     # Dobór optymalnego progu
+│   ├── confusion_matrices.py      # Generowanie macierzy pomyłek
+│   └── shap_analysis.py           # Analiza SHAP
+│
+├── notebooks/                     # Jupyter notebooks
+│   ├── eda.ipynb                  # Eksploracyjna analiza danych
+│   ├── logistic_regression.ipynb  # Wstępne eksperymenty z regresją logistyczną
+│   ├── random_forest.ipynb        # Wstępne eksperymenty z lasem losowym
+│   └── calibration.ipynb          # Wstępne eksperymenty z kalibracją
+│
+├── models/                        # Zapisane modele
+│   ├── *_full.pkl                 # Modele trenowane na pełnym zbiorze cech
+│   ├── *_reduced.pkl              # Modele po feature selection
+│   ├── tuned_*.pkl                # Modele po tuningu hiperparametrów
+│   └── calibrated_*.pkl           # Modele skalibrowane
+│
+├── plots/                         # Wykresy i wizualizacje
+│   ├── shap/                      # Wykresy SHAP
+│   ├── confusion_matrices.png     # Macierze pomyłek
+│   ├── *_calibration_comparison.png  # Porównanie metod kalibracji
+│   └── *_reliability.png          # Diagramy reliability nieskalibrowanych modeli
+│
+├── slownik_zmiennych_opisy.csv    # Słownik zmiennych
+├── main.py                        # Główny skrypt uruchomieniowy
+└── README.md                      # Dokumentacja projektu
+```
+
+### Workflow projektu
+
+1. **Preprocessing**: `manual_preprocessing.py` → `split_data.py`
+2. **Feature Selection**: `feature_selection.py`
+3. **Baseline Models**: `baseline_models.py`
+4. **Hyperparameter Tuning**: `lr_tuning.py`, `rf_tuning.py`
+5. **Calibration**: `calibration.py`
+6. **Evaluation**: `threshold_selection.py`, `confusion_matrices.py`
+7. **Explainability**: `shap_analysis.py`
 
 ---
 
 ## Uruchomienie
 
-Aby uruchomić projekt, należy posiadać środowisko Python z zainstalowanymi wymaganymi bibliotekami. Można to zrobić za pomocą pliku `requirements.txt`:
-
-```bash
-pip install -r requirements.txt
-```
-
-Następnie należy uruchomić skrypt `main.py`, który przeprowadzi cały proces od wczytania i przetwarzania danych, treningu modeli, kalibracji, aż po generowanie wizualizacji i wyjaśnień:
+Po instalacji należy uruchomić skrypt `main.py`, który przeprowadzi cały proces od wczytania i przetwarzania danych, treningu modeli, kalibracji, aż po generowanie wizualizacji i wyjaśnień:
 
 ```bash
 python main.py
 ```
 
-Plik `constants.py` zawiera wszystkie stałe używane w projekcie i umożliwia łatwą konfigurację przed wywołaniem skryptu `main.py`.
+Plik `constants.py` zawiera wszystkie stałe używane w projekcie i umożliwia ewentualne zmiany niektórych parametrów (takich jak rozmiar zbioru testowego, seed) przed wywołaniem skryptu `main.py`.
 
 ---
 
@@ -53,27 +132,28 @@ Po sprawdzeniu rozkładu zmiennej celu, przeprowadziliśmy podstawową eksplorac
 
 Dzięki analizie danych zidentyfikowaliśmy kilka problemów, w tym występujące w danych wartości inf, outliery oraz wartości 0, które w niektórych kolumnach prawdopodobnie oznaczały brak danych. Ostateczny preprocessing danych obejmował:
 
-- Usunięcie kolumn z dużą liczbą identycznych wartości ( > 95% = UNIQUE_VALUE_THRESHOLD)
-- Zastąpienie wartości 0 na NaN w kolumnach, gdzie 0 występowało często ( > 75% = ZERO_TO_NAN_THRESHOLD)
-- Podział na zbiór treningowy i testowy (0.3 = TEST_SIZE)
+- Usunięcie kolumn z dużą liczbą identycznych wartości ( > 95% = `UNIQUE_VALUE_THRESHOLD`)
+- Zastąpienie wartości 0 na NaN w kolumnach, gdzie 0 występowało często ( > 75% = `ZERO_TO_NAN_THRESHOLD`)
+- Podział na zbiór treningowy i testowy (0.3 = `TEST_SIZE`)
 - Selekcję zmiennych za pomocą RFE (z liczbą cech ustawioną na 100 = MAX_FEATURES)
-- Pipeline, który w zależności od modelu stosował:
+- Pipeline, w zależności od modelu:
   - Dla regresji logistycznej:
-    - Zastępował wartości inf na maksymalną wartość w kolumnie
+    - Zastąpienie wartości inf maksymalną wartością w kolumnie
     - SimpleImputer medianą lub najczęściej występującą wartością
-    - One-Hot Encoding dla zmiennych kategorycznych
-    - Zastępowanie outlierów ($\alpha$% najmniejszych i największych, gdzie $\alpha$ potraktowaliśmy jako hiperparametr) na wartości graniczne
+    - One-Hot Encoding dla zmiennych kategorycznych, z `drop='first'` oraz `add_indicator` optymalizowanym podczas optymalizacji hiperparametrów
+    - Clippowanie outlierów (`alpha`% najmniejszych i największych, gdzie `alpha` potraktowaliśmy jako hiperparametr do optymalizacji)
     - Skalowanie cech za pomocą StandardScaler
+    - Wyeliminowanie parami skorelowanych cech od `corr_threshold` (także traktowany jako hiperparametr do optymalizacji)
   - Dla lasu losowego:
-    - Zastępował wartości inf na maksymalną wartość w kolumnie
+    - Zastąpienie wartości inf maksymalną wartością w kolumnie
     - SimpleImputer medianą lub najczęściej występującą wartością
     - One-Hot Encoding dla zmiennych kategorycznych
 
 ---
 
-## Tuning hiperparametrów
+## Tuning / optymalizacja hiperparametrów
 
-Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem Optuny. Jako metrykę optymalizacji wybraliśmy ROC AUC.
+Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem pakietu AutoML "Optuna". Jako metrykę optymalizacji wybraliśmy ROC AUC.
 
 ## Kalibracja
 
