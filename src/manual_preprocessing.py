@@ -20,6 +20,7 @@ def main():
             cols_to_drop.append(col)
     
     df = df.drop(columns=cols_to_drop)
+    logging.info(f"Number of columns dropped: {len(cols_to_drop)}")
     logging.info(f"Dropped columns due to high identical value percentage: {cols_to_drop}")
 
     # Save the preprocessed dataset
