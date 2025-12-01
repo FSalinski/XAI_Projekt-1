@@ -5,7 +5,7 @@ from sklearn.pipeline import Pipeline
 from utils import evaluate_model, save_model, load_train_test_data
 from data_processing import data_processing_pipeline_lr
 import logging
-from constants import RANDOM_STATE, MODELS_PATH, TUNED_LR_MODEL_PATH
+from constants import RANDOM_STATE, MODELS_PATH, TUNED_LR_MODEL_PATH, TRAIN_TRIMMED_PATH, TEST_TRIMMED_PATH
 import os
 import optuna
 
@@ -26,7 +26,7 @@ def main():
     logging.info("Starting Logistic Regression hyperparameter tuning with Optuna")
 
     # Load data
-    X_train, X_test, y_train, y_test = load_train_test_data()
+    X_train, X_test, y_train, y_test = load_train_test_data(train_path=TRAIN_TRIMMED_PATH, test_path=TEST_TRIMMED_PATH)
 
     def objective(trial):
         # Suggest hyperparameters

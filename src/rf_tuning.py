@@ -5,7 +5,7 @@ from sklearn.pipeline import Pipeline
 from utils import evaluate_model, load_train_test_data, save_model
 from data_processing import data_processing_pipeline_rf
 import logging
-from constants import RANDOM_STATE, MODELS_PATH, TUNED_RF_MODEL_PATH
+from constants import RANDOM_STATE, MODELS_PATH, TUNED_RF_MODEL_PATH, TRAIN_TRIMMED_PATH, TEST_TRIMMED_PATH
 import os
 import optuna
 
@@ -25,7 +25,7 @@ def main():
     logging.info("Starting Random Forest hyperparameter tuning with Optuna")
 
     # Load data
-    X_train, X_test, y_train, y_test = load_train_test_data()
+    X_train, X_test, y_train, y_test = load_train_test_data(train_path=TRAIN_TRIMMED_PATH, test_path=TEST_TRIMMED_PATH)
 
     def objective(trial):
         # Suggest hyperparameters
@@ -40,7 +40,6 @@ def main():
         pipeline = Pipeline(steps=[
             ('preprocessor', data_processing_pipeline_rf(
                 X_train,
-                corr_threshold=0.75,
                 imputer_strategy=imputer_strategy,
                 add_indicator=add_indicator
             )),
@@ -72,7 +71,6 @@ def main():
     final_pipeline = Pipeline(steps=[
         ('preprocessor', data_processing_pipeline_rf(
             X_train,
-            corr_threshold=0.75,
             imputer_strategy=best_params['imputer_strategy'],
             add_indicator=best_params['add_indicator']
         )),

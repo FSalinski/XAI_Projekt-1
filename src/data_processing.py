@@ -1,4 +1,4 @@
-from sklearn.preprocessing import StandardScaler, OneHotEncoder, FunctionTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder, FunctionTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
@@ -98,9 +98,13 @@ class PairwiseCorrelatedFeatureRemover(BaseEstimator, TransformerMixin):
 def data_processing_pipeline_lr(X, alpha=0.05, corr_threshold=0.75, imputer_strategy='median', add_indicator=True):
     numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
     categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
+    # remove 'formaWlasnosci_Symbol' from numerc features if present and add it to categorical features
+    if 'formaWlasnosci_Symbol' in numeric_features:
+        numeric_features.remove('formaWlasnosci_Symbol')
+        categorical_features.append('formaWlasnosci_Symbol')
 
     numeric_transformer = Pipeline(steps=[
-        ('replace_inf', FunctionTransformer(replace_inf)),
+        ('replace_inf', FunctionTransformer(replace_inf, feature_names_out='one-to-one')),
         ('imputer', SimpleImputer(strategy=imputer_strategy, add_indicator=add_indicator)),
         ('quantile_clipper', QuantileClipper(alpha=alpha)),
         ('scaler', StandardScaler())
@@ -128,18 +132,45 @@ def data_processing_pipeline_lr(X, alpha=0.05, corr_threshold=0.75, imputer_stra
     return pipeline
 
 
-def data_processing_pipeline_rf(X, alpha=0.05, corr_threshold=0.75, imputer_strategy='median', add_indicator=True):
+def data_processing_pipeline_rf(X, imputer_strategy='median', add_indicator=True):
     numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
     categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
 
     numeric_transformer = Pipeline(steps=[
-        ('replace_inf', FunctionTransformer(replace_inf)),
+        ('replace_inf', FunctionTransformer(replace_inf, feature_names_out='one-to-one')),
         ('imputer', SimpleImputer(strategy=imputer_strategy, add_indicator=add_indicator)),
     ])
 
     categorical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='most_frequent', add_indicator=True)),
         ('onehot', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False))
+    ])
+
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ('num', numeric_transformer, numeric_features),
+            ('cat', categorical_transformer, categorical_features)
+        ],
+        verbose_feature_names_out=False
+    )
+    
+    # Enable pandas output to preserve feature names
+    preprocessor.set_output(transform="pandas")
+
+    return preprocessor
+
+def data_processing_pipeline_feature_selection(X, imputer_strategy='median', add_indicator=True):
+    numeric_features = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
+    categorical_features = X.select_dtypes(include=['object', 'category']).columns.tolist()
+
+    numeric_transformer = Pipeline(steps=[
+        ('replace_inf', FunctionTransformer(replace_inf, feature_names_out='one-to-one')),
+        ('imputer', SimpleImputer(strategy=imputer_strategy, add_indicator=add_indicator)),
+    ])
+
+    categorical_transformer = Pipeline(steps=[
+        ('imputer', SimpleImputer(strategy='most_frequent', add_indicator=True)),
+        ('ordinalencoder', OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1))
     ])
 
     preprocessor = ColumnTransformer(
