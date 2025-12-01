@@ -43,6 +43,11 @@ class QuantileClipper(BaseEstimator, TransformerMixin):
             up = self.upper_bounds_[col]
             X_df[col] = X_df[col].clip(lower=low, upper=up)
         return X_df if isinstance(X, pd.DataFrame) else X_df.to_numpy()
+
+    def get_feature_names_out(self, input_features=None):
+        if input_features is None:
+            return np.array(self.columns_, dtype=object)
+        return np.array(input_features, dtype=object)
     
 class PairwiseCorrelatedFeatureRemover(BaseEstimator, TransformerMixin):
     def __init__(self, threshold=0.75):
@@ -72,6 +77,15 @@ class PairwiseCorrelatedFeatureRemover(BaseEstimator, TransformerMixin):
         X_ = X if isinstance(X, pd.DataFrame) else pd.DataFrame(X)
         return X_.drop(columns=self.features_to_remove_)
     
+    def get_feature_names_out(self, input_features=None):
+        if input_features is None:
+            if self.corr_matrix_ is not None:
+                return self.corr_matrix_.columns.to_numpy()
+            else:
+                raise ValueError("Estimator not fitted or input features not provided")
+        
+        return np.array([f for f in input_features if f not in self.features_to_remove_], dtype=object)
+    
     def find_correlated_pairs(self, corr, threshold=0.75):
         correlated_pairs = []
         for i in range(len(corr.columns)):
@@ -94,14 +108,19 @@ def data_processing_pipeline_lr(X, alpha=0.05, corr_threshold=0.75, imputer_stra
 
     categorical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='most_frequent', add_indicator=True)),
-        ('onehot', OneHotEncoder(handle_unknown='ignore', drop='first'))
+        ('onehot', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False))
     ])
 
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', numeric_transformer, numeric_features),
             ('cat', categorical_transformer, categorical_features)
-        ])
+        ],
+        verbose_feature_names_out=False
+    )
+    
+    # Enable pandas output to preserve feature names
+    preprocessor.set_output(transform="pandas")
 
     pipeline = Pipeline(steps=[('preprocessor', preprocessor),
                                    ('correlated_feature_remover', PairwiseCorrelatedFeatureRemover(threshold=corr_threshold))])
@@ -120,13 +139,18 @@ def data_processing_pipeline_rf(X, alpha=0.05, corr_threshold=0.75, imputer_stra
 
     categorical_transformer = Pipeline(steps=[
         ('imputer', SimpleImputer(strategy='most_frequent', add_indicator=True)),
-        ('onehot', OneHotEncoder(handle_unknown='ignore', drop='first'))
+        ('onehot', OneHotEncoder(handle_unknown='ignore', drop='first', sparse_output=False))
     ])
 
     preprocessor = ColumnTransformer(
         transformers=[
             ('num', numeric_transformer, numeric_features),
             ('cat', categorical_transformer, categorical_features)
-        ])
+        ],
+        verbose_feature_names_out=False
+    )
+    
+    # Enable pandas output to preserve feature names
+    preprocessor.set_output(transform="pandas")
 
     return preprocessor
