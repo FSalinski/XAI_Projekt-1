@@ -49,6 +49,7 @@ def sweep_costs(y_true, p, n=101):
     return thrs, np.array(costs), details
 
 def main():
+    sns.set_style("whitegrid")
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logging.info("=" * 50)
     p = load_model(CALIBRATED_LR_MODEL_PATH).predict_proba(X_test)[:, 1]
@@ -62,7 +63,9 @@ def main():
     plt.title("Krzywa kosztu vs próg")
     plt.xlabel("Próg")
     plt.ylabel("Koszt (niżej lepiej)")
-    plt.show()
+    # save plot
+    plt.savefig(f"{PLOTS_PATH}/cost_curve_lr.png")
+    plt.close()
 
     logging.info(f"Najlepszy próg: {best_thr}")
     logging.info(f"TP, FP, FN, TN: {best_tp}, {best_fp}, {best_fn}, {best_tn}")

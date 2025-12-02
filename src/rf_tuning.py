@@ -60,11 +60,17 @@ def main():
     
     # Create Optuna study
     study = optuna.create_study(direction='maximize', sampler=optuna.samplers.TPESampler(seed=RANDOM_STATE))
-    study.optimize(objective, n_trials=N_TRIALS, show_progress_bar=True, n_jobs=-1)
+    study.optimize(objective, n_trials=N_TRIALS, show_progress_bar=True, n_jobs=1)
     
     logging.info(f"Best trial: {study.best_trial.number}")
-    logging.info(f"Best cross-validation mean ROC AUC: {study.best_value}")
-    logging.info(f"Best hyperparameters: {study.best_params}")
+    logging.info(f"Best cross-validation mean ROC AUC: {study.best_value:.4f}")
+    logging.info("Best hyperparameters found:")
+    logging.info(f"  - n_estimators: {study.best_params['n_estimators']}")
+    logging.info(f"  - max_depth: {study.best_params['max_depth']}")
+    logging.info(f"  - min_samples_leaf: {study.best_params['min_samples_leaf']}")
+    logging.info(f"  - class_weight: {study.best_params['class_weight']}")
+    logging.info(f"  - imputer_strategy: {study.best_params['imputer_strategy']}")
+    logging.info(f"  - add_indicator: {study.best_params['add_indicator']}")
     
     # Train final model with best hyperparameters
     best_params = study.best_params
@@ -85,10 +91,6 @@ def main():
     ])
     
     final_pipeline.fit(X_train, y_train)
-    rec, roc_auc = evaluate_model(final_pipeline, X_test, y_test)
-    logging.info("Results on test set:")
-    logging.info(f"Tuned Random Forest - Recall: {rec}, ROC AUC: {roc_auc}")
-
     save_model(final_pipeline, TUNED_RF_MODEL_PATH)
     
     logging.info(f"Random Forest hyperparameter tuning completed. Saved tuned model in '{TUNED_RF_MODEL_PATH}'")

@@ -153,16 +153,47 @@ Dzięki analizie danych zidentyfikowaliśmy kilka problemów, w tym występując
 
 ## Tuning / optymalizacja hiperparametrów
 
-Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem pakietu AutoML "Optuna". Jako metrykę optymalizacji wybraliśmy ROC AUC.
+Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem pakietu AutoML "Optuna". Jako metrykę optymalizacji wybraliśmy ROC AUC, a przeszukane zostało łącznie 400 różnych kombinacji hiperparametrów dla obu modeli.
+Poniżej przedstawiamy optymalizowane hiperparametry razem z zakresami i krótkim opisem:
 
-...
+### Regresja logistyczna
+
+| Hiperparametr | Zakres | Opis |
+|---------------|--------|------|
+| `C` | [0.001, 1000] (log scale) | Odwrotność siły regularyzacji; mniejsze wartości oznaczają silniejszą regularyzację |
+| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych |
+| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości |
+| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości |
+| `alpha` | [0.0, 0.15] | Percentyl do clippowania outlierów (np. 0.05 oznacza usunięcie 5% skrajnych wartości z obu stron) |
+| `corr_threshold` | [0.5, 1.0] | Próg korelacji do usuwania parami skorelowanych cech |
+
+### Las losowy
+
+| Hiperparametr | Zakres | Opis |
+|---------------|--------|------|
+| `n_estimators` | [50, 300] (krok 5) | Liczba drzew w lesie |
+| `max_depth` | [3, 12] | Maksymalna głębokość drzewa |
+| `min_samples_leaf` | [1, 5] | Minimalna liczba próbek wymagana w liściu |
+| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych |
+| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości |
+| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości |
+
+Optymalizacja została przeprowadzona z użyciem 5-krotnej stratyfikowanej walidacji krzyżowej, a wybrane zostały hiperparametry maksymalizujące średnią wartość ROC AUC.
+
+---
+
+
+
+
 
 ## Kalibracja
 
-W ramach projektu naszym zadaniem było również przeprowadzenie kalibracji modeli, do średniej PD równej 4%. Wykorzystaliśmy do tego kalibrację izotoniczną oraz sigmoid, dla obu modeli.
+W ramach projektu naszym zadaniem było również przeprowadzenie kalibracji modeli, do średniej PD równej 4%. W tym celu testowaliśmy kalibrację izotoniczną oraz sigmoid dla obu modeli.
 
 ![Kalibracja LR](plots/lr_calibration_comparison.png)
 ![Kalibracja RF](plots/rf_calibration_comparison.png)
+
+Dla obu modeli zdecydowaliśmy się wybrać kalibrację sigmoid, ponieważ obie metody osiągały wystarczająco dobre metryki kalibracji, natomiast kalibracja izotoniczna detrymentalnie wpływała na jakość predykcyjną modelu (obniżone AUC po kalibracji).
 
 ## Wyjaśnialność modeli
 
