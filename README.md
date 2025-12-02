@@ -62,6 +62,7 @@ XAI_Projekt-1/
 │   ├── baseline_models.py         # Trenowanie modeli bazowych
 │   ├── lr_tuning.py               # Tuning regresji logistycznej
 │   ├── rf_tuning.py               # Tuning lasu losowego
+│   ├── evaluate_tuned_models.py   # Ewaluacja modeli po tuningu
 │   ├── calibration.py             # Kalibracja modeli
 │   ├── threshold_selection.py     # Dobór optymalnego progu
 │   ├── confusion_matrices.py      # Generowanie macierzy pomyłek
@@ -95,10 +96,11 @@ XAI_Projekt-1/
 1. **Preprocessing**: `manual_preprocessing.py` → `split_data.py`
 2. **Feature Selection**: `feature_selection.py`
 3. **Baseline Models**: `baseline_models.py`
-4. **Hyperparameter Tuning**: `lr_tuning.py`, `rf_tuning.py`
-5. **Calibration**: `calibration.py`
-6. **Evaluation**: `threshold_selection.py`, `confusion_matrices.py`
-7. **Explainability**: `shap_analysis.py`
+4. **Hyperparameter Tuning**: `lr_tuning.py`, `rf_tuning.py` | Domyślnie pomijane w `main()`. Gotowe modele są zapisane w `/models`.
+5. **Model Evaluation**: `evaluate_tuned_models.py`
+6. **Calibration**: `calibration.py`
+7. **Threshold Selection**: `threshold_selection.py`, `confusion_matrices.py`
+8. **Explainability**: `shap_analysis.py`
 
 ---
 
@@ -153,47 +155,102 @@ Dzięki analizie danych zidentyfikowaliśmy kilka problemów, w tym występując
 
 ## Tuning / optymalizacja hiperparametrów
 
-Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem pakietu AutoML "Optuna". Jako metrykę optymalizacji wybraliśmy ROC AUC, a przeszukane zostało łącznie 400 różnych kombinacji hiperparametrów dla obu modeli.
-Poniżej przedstawiamy optymalizowane hiperparametry razem z zakresami i krótkim opisem:
+Po przetworzeniu danych, przeprowadziliśmy strojenie hiperparametrów dla obu modeli za pomocą optymalizacji bayesowskiej z wykorzystaniem pakietu AutoML "Optuna". Jako metrykę optymalizacji wybraliśmy ROC AUC, a przeszukane zostało łącznie 400 różnych kombinacji hiperparametrów dla obu modeli. Optymalizacja została przeprowadzona z użyciem 5-krotnej stratyfikowanej walidacji krzyżowej, a wybrane zostały hiperparametry maksymalizujące średnią wartość ROC AUC.
+Poniżej przedstawiamy optymalizowane hiperparametry razem z zakresami, krótkim opisem i najlepszymi znalezionymi podczas tuningu wartościami:
 
 ### Regresja logistyczna
 
-| Hiperparametr | Zakres | Opis |
-|---------------|--------|------|
-| `C` | [0.001, 1000] (log scale) | Odwrotność siły regularyzacji; mniejsze wartości oznaczają silniejszą regularyzację |
-| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych |
-| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości |
-| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości |
-| `alpha` | [0.0, 0.15] | Percentyl do clippowania outlierów (np. 0.05 oznacza usunięcie 5% skrajnych wartości z obu stron) |
-| `corr_threshold` | [0.5, 1.0] | Próg korelacji do usuwania parami skorelowanych cech |
+| Hiperparametr | Zakres | Opis | Najlepsza wartość |
+|---------------|--------|------|-------------------|
+| `C` | [0.001, 1000] (log scale) | Odwrotność siły regularyzacji; mniejsze wartości oznaczają silniejszą regularyzację | 0.1245 |
+| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych | None |
+| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości | median |
+| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości | True |
+| `alpha` | [0.0, 0.15] | Percentyl do clippowania outlierów (np. 0.05 oznacza usunięcie 5% skrajnych wartości z obu stron) | 0.1449 |
+| `corr_threshold` | [0.5, 1.0] | Próg korelacji do usuwania parami skorelowanych cech | 0.9824 |
 
 ### Las losowy
 
-| Hiperparametr | Zakres | Opis |
-|---------------|--------|------|
-| `n_estimators` | [50, 300] (krok 5) | Liczba drzew w lesie |
-| `max_depth` | [3, 12] | Maksymalna głębokość drzewa |
-| `min_samples_leaf` | [1, 5] | Minimalna liczba próbek wymagana w liściu |
-| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych |
-| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości |
-| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości |
-
-Optymalizacja została przeprowadzona z użyciem 5-krotnej stratyfikowanej walidacji krzyżowej, a wybrane zostały hiperparametry maksymalizujące średnią wartość ROC AUC.
+| Hiperparametr | Zakres | Opis | Najlepsza wartość |
+|---------------|--------|------|-------------------|
+| `n_estimators` | [50, 300] (krok 5) | Liczba drzew w lesie | 85 |
+| `max_depth` | [3, 12] | Maksymalna głębokość drzewa | 3 |
+| `min_samples_leaf` | [1, 5] | Minimalna liczba próbek wymagana w liściu | 5 |
+| `class_weight` | ['balanced', None] | Wagi klas do radzenia sobie z niezbalansowanym zbiorem danych | None |
+| `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości | median |
+| `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości | True |
 
 ---
-
-
-
-
 
 ## Kalibracja
 
 W ramach projektu naszym zadaniem było również przeprowadzenie kalibracji modeli, do średniej PD równej 4%. W tym celu testowaliśmy kalibrację izotoniczną oraz sigmoid dla obu modeli.
 
+### Wyniki przed kalibracją
+
+| Model | AUC | Recall | Brier Score | Log Loss | ECE |
+|-------|-----|--------|-------------|----------|-----|
+| Regresja logistyczna | 0.7303 | 0.0385 | 0.0511 | 0.2003 | 0.0218 |
+| Las losowy | 0.7832 | 0.0000 | 0.0500 | 0.1928 | 0.0298 |
+
+### Wyniki kalibracji dla regresji logistycznej
+
+| Metoda kalibracji | AUC | Recall | Brier Score | Log Loss | ECE |
+|-------------------|-----|--------|-------------|----------|-----|
+| Sigmoid | 0.7303 | 0.0385 | 0.0506 | 0.1991 | 0.0128 |
+| Isotonic | 0.7177 | 0.0000 | 0.0516 | 0.2697 | 0.0168 |
+
+### Wyniki kalibracji dla lasu losowego
+
+| Metoda kalibracji | AUC | Recall | Brier Score | Log Loss | ECE |
+|-------------------|-----|--------|-------------|----------|-----|
+| Sigmoid | 0.7832 | 0.0385 | 0.0511 | 0.2007 | 0.0400 |
+| Isotonic | 0.7673 | 0.0000 | 0.0507 | 0.2619 | 0.0170 |
+
 ![Kalibracja LR](plots/lr_calibration_comparison.png)
+
 ![Kalibracja RF](plots/rf_calibration_comparison.png)
 
-Dla obu modeli zdecydowaliśmy się wybrać kalibrację sigmoid, ponieważ obie metody osiągały wystarczająco dobre metryki kalibracji, natomiast kalibracja izotoniczna detrymentalnie wpływała na jakość predykcyjną modelu (obniżone AUC po kalibracji).
+Dla obu modeli zdecydowaliśmy się wybrać kalibrację sigmoid, ponieważ:
+
+- **Regresja logistyczna**: Kalibracja sigmoid znacząco poprawia ECE (z 0.0218 do 0.0128) przy zachowaniu AUC i minimalnym pogorszeniu innych metryk
+- **Las losowy**: Kalibracja sigmoid utrzymuje doskonałe AUC (0.7832) i najlepszy Log Loss, mimo że ECE jest wyższe niż w metodzie isotonic; kalibracja izotoniczna znacząco pogarsza Log Loss (0.2619 vs 0.2007)
+
+---
+
+## Dobór optymalnego progu decyzyjnego
+
+Po kalibracji modeli należało dobrać optymalny próg klasyfikacji, który minimalizuje funkcję kosztu biznesowego. Przyjęliśmy uproszczony model, definiując następującą macierz kosztów:
+
+- **True Positive (TP)**: 0 zł - poprawnie odrzucony wniosek niewypłacalnego klienta
+- **False Negative (FN)**: 100 000 zł - koszt udzielenia kredytu niewypłacalnemu klientowi
+- **False Positive (FP)**: 0 zł - odrzucenie wniosku wypłacalnego klienta
+- **True Negative (TN)**: -10 000 zł - zysk z udzielenia kredytu wypłacalnemu klientowi
+
+Dla każdego modelu przeskanowaliśmy próg w zakresie [0, 1] i wybraliśmy wartość minimalizującą całkowity koszt.
+
+### Wyniki optymalizacji progu
+
+| Model | Optymalny próg | TP | FP | FN | TN | Stopa akceptacji |
+|-------|----------------|----|----|----|----|------------------|
+| Regresja logistyczna | 0.1250 | 14 | 51 | 39 | 796 | 92.78% |
+| Las losowy | 0.0650 | 30 | 145 | 23 | 702 | 80.56% |
+
+![Krzywa kosztu LR](plots/shap/cost_curve_lr.png)
+
+![Krzywa kosztu RF](plots/shap/cost_curve_rf.png)
+
+### Analiza wyników
+
+- **Regresja logistyczna** wybiera wyższy próg (0.1250), co prowadzi do bardziej konserwatywnej strategii z wyższą stopą akceptacji (92.78%). Model akceptuje więcej klientów, ale przy tym generuje więcej błędów FN (39 przypadków nieuchwyconych defaultów).
+
+- **Las losowy** wybiera niższy próg (0.0650), co skutkuje bardziej restrykcyjną polityką kredytową ze stopą akceptacji 80.56%. Model jest bardziej ostrożny, łapiąc więcej rzeczywistych defaultów (30 TP vs 14 dla LR), ale odrzucając przy tym więcej dobrych klientów (145 FP vs 51 dla LR).
+
+### Macierze pomyłek z optymalnymi progami
+
+![Macierze pomyłek](plots/confusion_matrices.png)
+
+---
 
 ## Wyjaśnialność modeli
 

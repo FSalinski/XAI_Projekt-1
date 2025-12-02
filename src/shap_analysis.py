@@ -14,9 +14,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from src.utils import load_model, load_train_test_data
 from src.constants import (
-    TRAIN_PATH,
     TRAIN_TRIMMED_PATH,
-    TEST_PATH,
     TEST_TRIMMED_PATH,
     TUNED_LR_MODEL_PATH, 
     TUNED_RF_MODEL_PATH,
@@ -47,6 +45,24 @@ def analyze_shap_lr(X_train, X_test, y_test):
     X_train_transformed = pipeline_step.transform(X_train)
     X_test_transformed = pipeline_step.transform(X_test)
     
+    # 1. Model's native feature importance (coefficients)
+    logging.info("Plotting model coefficients (native feature importance)...")
+    coefs = pd.Series(classifier.coef_[0], index=X_train_transformed.columns)
+    top_15_coefs = coefs.abs().nlargest(15).index
+    coefs_top15 = coefs[top_15_coefs].sort_values()
+    
+    plt.figure(figsize=(10, 8))
+    coefs_top15.plot(kind='barh')
+    plt.xlabel('Coefficient Value')
+    plt.title('Top 15 Features by Absolute Coefficient - Logistic Regression')
+    plt.tight_layout()
+    plt.savefig(os.path.join(PLOTS_PATH, 'lr_coefficients.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    logging.info("Top 10 features by absolute coefficient:")
+    for idx, (feat, val) in enumerate(coefs.abs().nlargest(10).items(), 1):
+        logging.info(f"  {idx}. {feat}: {val:.6f} (original: {coefs[feat]:.6f})")
+    
     # Create Explainer
     logging.info("Creating LinearExplainer...")
     # LinearExplainer works well with DataFrames if feature names are present
@@ -59,6 +75,11 @@ def analyze_shap_lr(X_train, X_test, y_test):
     # Get top 15 features by mean absolute SHAP value
     mean_abs_shap = np.abs(shap_values.values).mean(axis=0)
     top_indices = np.argsort(mean_abs_shap)[-15:][::-1]
+    
+    logging.info("Top 15 features by mean absolute SHAP value:")
+    for idx, feat_idx in enumerate(top_indices, 1):
+        feat_name = shap_values.feature_names[feat_idx]
+        logging.info(f"  {idx}. {feat_name}: {mean_abs_shap[feat_idx]:.6f}")
     
     # Create filtered SHAP values for top features only
     shap_values_top = shap.Explanation(
@@ -84,13 +105,35 @@ def analyze_shap_lr(X_train, X_test, y_test):
     plt.savefig(os.path.join(PLOTS_PATH, 'lr_shap_bar.png'), dpi=300, bbox_inches='tight')
     plt.close()
     
-    # 3. Waterfall plot for a single observation (with max_display to show sum)
-    logging.info("Generating Waterfall plot for first observation...")
-    plt.figure(figsize=(10, 8))
-    shap.plots.waterfall(shap_values[0], max_display=15, show=False)
-    plt.tight_layout()
-    plt.savefig(os.path.join(PLOTS_PATH, 'lr_shap_waterfall_obs0.png'), dpi=300, bbox_inches='tight')
-    plt.close()
+    # 3. Waterfall plots for multiple observations
+    logging.info("Generating Waterfall plots for selected observations...")
+    
+    # Select 3 interesting observations: high probability default, low probability default, medium
+    y_proba = classifier.predict_proba(X_test_transformed)[:, 1]
+    
+    # Find indices of interesting cases among actual defaults (y_test == 1)
+    default_indices = np.where(y_test == 1)[0]
+    if len(default_indices) >= 3:
+        # Among defaults, find high, medium, and low predicted probabilities
+        default_probas = y_proba[default_indices]
+        high_idx = default_indices[np.argmax(default_probas)]
+        low_idx = default_indices[np.argmin(default_probas)]
+        mid_idx = default_indices[np.argsort(default_probas)[len(default_probas)//2]]
+        
+        obs_indices = [high_idx, mid_idx, low_idx]
+        obs_labels = ['high_prob_default', 'medium_prob_default', 'low_prob_default']
+    else:
+        # Fallback: just take first 3 observations
+        obs_indices = [0, 1, 2]
+        obs_labels = ['obs0', 'obs1', 'obs2']
+    
+    for idx, (obs_idx, label) in enumerate(zip(obs_indices, obs_labels)):
+        plt.figure(figsize=(10, 8))
+        shap.plots.waterfall(shap_values[obs_idx], max_display=15, show=False)
+        plt.tight_layout()
+        plt.savefig(os.path.join(PLOTS_PATH, f'lr_shap_waterfall_{label}.png'), dpi=300, bbox_inches='tight')
+        plt.close()
+        logging.info(f"  Generated waterfall plot for observation {obs_idx} (label: {label}, predicted prob: {y_proba[obs_idx]:.4f}, actual: {y_test.iloc[obs_idx]})")
     
     # 4. Permutation Importance (only for top 20 original features by SHAP)
     logging.info("Calculating Permutation Importance for top 20 original features...")
@@ -99,8 +142,13 @@ def analyze_shap_lr(X_train, X_test, y_test):
     # Group transformed features by their original feature names
     original_feature_importance = {}
     for i, feat_name in enumerate(shap_values.feature_names):
-        # Extract base feature name (before one-hot encoding)
-        if '_' in feat_name:
+        # Extract base feature name (before one-hot encoding or indicator)
+        # Handle both one-hot encoding and missing indicators
+        if 'missingindicator_' in feat_name.lower():
+            # Skip missing indicator columns for permutation importance
+            continue
+        elif '_' in feat_name:
+            # Try to extract base feature name
             base_feat = feat_name.rsplit('_', 1)[0]
         else:
             base_feat = feat_name
@@ -177,6 +225,26 @@ def analyze_shap_rf(X_train, X_test, y_test):
     X_train_transformed = preprocessor.transform(X_train)
     X_test_transformed = preprocessor.transform(X_test)
     
+    # 1. Model's native feature importance
+    logging.info("Plotting model's native feature importance...")
+    feature_importances = pd.Series(
+        classifier.feature_importances_,
+        index=X_train_transformed.columns
+    )
+    top_15_importance = feature_importances.nlargest(15).sort_values()
+    
+    plt.figure(figsize=(10, 8))
+    top_15_importance.plot(kind='barh')
+    plt.xlabel('Feature Importance (Gini Importance)')
+    plt.title('Top 15 Features by Native Importance - Random Forest')
+    plt.tight_layout()
+    plt.savefig(os.path.join(PLOTS_PATH, 'rf_feature_importance.png'), dpi=300, bbox_inches='tight')
+    plt.close()
+    
+    logging.info("Top 10 features by native feature importance:")
+    for idx, (feat, val) in enumerate(feature_importances.nlargest(10).items(), 1):
+        logging.info(f"  {idx}. {feat}: {val:.6f}")
+    
     # Create Explainer
     logging.info("Creating TreeExplainer...")
     
@@ -208,6 +276,11 @@ def analyze_shap_rf(X_train, X_test, y_test):
     # Get top 15 features by mean absolute SHAP value
     mean_abs_shap = np.abs(shap_values.values).mean(axis=0)
     top_indices = np.argsort(mean_abs_shap)[-15:][::-1]
+    
+    logging.info("Top 15 features by mean absolute SHAP value:")
+    for idx, feat_idx in enumerate(top_indices, 1):
+        feat_name = shap_values.feature_names[feat_idx]
+        logging.info(f"  {idx}. {feat_name}: {mean_abs_shap[feat_idx]:.6f}")
     
     # Create filtered SHAP values for top features only
     # Handle DataFrame vs array indexing properly
@@ -241,13 +314,35 @@ def analyze_shap_rf(X_train, X_test, y_test):
     plt.savefig(os.path.join(PLOTS_PATH, 'rf_shap_bar.png'), dpi=300, bbox_inches='tight')
     plt.close()
     
-    # 3. Waterfall plot for a single observation (with max_display to show sum)
-    logging.info("Generating Waterfall plot for first observation...")
-    plt.figure(figsize=(10, 8))
-    shap.plots.waterfall(shap_values[0], max_display=15, show=False)
-    plt.tight_layout()
-    plt.savefig(os.path.join(PLOTS_PATH, 'rf_shap_waterfall_obs0.png'), dpi=300, bbox_inches='tight')
-    plt.close()
+    # 3. Waterfall plots for multiple observations
+    logging.info("Generating Waterfall plots for selected observations...")
+    
+    # Select 3 interesting observations: high probability default, low probability default, medium
+    y_proba = classifier.predict_proba(X_test_transformed)[:, 1]
+    
+    # Find indices of interesting cases among actual defaults (y_test == 1)
+    default_indices = np.where(y_test == 1)[0]
+    if len(default_indices) >= 3:
+        # Among defaults, find high, medium, and low predicted probabilities
+        default_probas = y_proba[default_indices]
+        high_idx = default_indices[np.argmax(default_probas)]
+        low_idx = default_indices[np.argmin(default_probas)]
+        mid_idx = default_indices[np.argsort(default_probas)[len(default_probas)//2]]
+        
+        obs_indices = [high_idx, mid_idx, low_idx]
+        obs_labels = ['high_prob_default', 'medium_prob_default', 'low_prob_default']
+    else:
+        # Fallback: just take first 3 observations
+        obs_indices = [0, 1, 2]
+        obs_labels = ['obs0', 'obs1', 'obs2']
+    
+    for idx, (obs_idx, label) in enumerate(zip(obs_indices, obs_labels)):
+        plt.figure(figsize=(10, 8))
+        shap.plots.waterfall(shap_values[obs_idx], max_display=15, show=False)
+        plt.tight_layout()
+        plt.savefig(os.path.join(PLOTS_PATH, f'rf_shap_waterfall_{label}.png'), dpi=300, bbox_inches='tight')
+        plt.close()
+        logging.info(f"  Generated waterfall plot for observation {obs_idx} (label: {label}, predicted prob: {y_proba[obs_idx]:.4f}, actual: {y_test.iloc[obs_idx]})")
     
     # 4. Permutation Importance (only for top 20 original features by SHAP)
     logging.info("Calculating Permutation Importance for top 20 original features...")
@@ -255,8 +350,13 @@ def analyze_shap_rf(X_train, X_test, y_test):
     # Calculate SHAP importance per original feature by summing over transformed features
     original_feature_importance = {}
     for i, feat_name in enumerate(shap_values.feature_names):
-        # Extract base feature name (before one-hot encoding)
-        if '_' in feat_name:
+        # Extract base feature name (before one-hot encoding or indicator)
+        # Handle both one-hot encoding and missing indicators
+        if 'missingindicator_' in feat_name.lower():
+            # Skip missing indicator columns for permutation importance
+            continue
+        elif '_' in feat_name:
+            # Try to extract base feature name
             base_feat = feat_name.rsplit('_', 1)[0]
         else:
             base_feat = feat_name
@@ -309,44 +409,6 @@ def analyze_shap_rf(X_train, X_test, y_test):
     plt.tight_layout()
     plt.savefig(os.path.join(PLOTS_PATH, 'rf_permutation_importance.png'), dpi=300, bbox_inches='tight')
     plt.close()
-    
-    # 5. SHAP Interaction Values (top 5 interactions)
-    logging.info("Calculating SHAP interaction values for top features...")
-    # Get top 20 features for interaction analysis
-    top_20_indices = np.argsort(mean_abs_shap)[-20:][::-1]
-    
-    if isinstance(X_test_transformed, pd.DataFrame):
-        X_test_top20 = X_test_transformed.iloc[:, top_20_indices]
-    else:
-        X_test_top20 = X_test_transformed[:, top_20_indices]
-    
-    # TreeExplainer can compute interactions
-    explainer_interaction = shap.TreeExplainer(classifier)
-    shap_interaction_values = explainer_interaction.shap_interaction_values(X_test_top20)
-    
-    # For binary classification, TreeExplainer returns [N, F, F, 2] - use positive class
-    if len(shap_interaction_values.shape) == 4:
-        shap_interaction_values = shap_interaction_values[:, :, :, 1]
-    
-    # Calculate mean absolute interaction strength
-    mean_abs_interaction = np.abs(shap_interaction_values).mean(axis=0)
-    
-    # Get top 5 interactions (excluding diagonal)
-    interactions = []
-    feature_names_top20 = [shap_values.feature_names[i] for i in top_20_indices]
-    for i in range(len(top_20_indices)):
-        for j in range(i+1, len(top_20_indices)):
-            interactions.append((
-                feature_names_top20[i],
-                feature_names_top20[j],
-                mean_abs_interaction[i, j]
-            ))
-    
-    interactions_sorted = sorted(interactions, key=lambda x: x[2], reverse=True)[:5]
-    
-    logging.info("Top 5 Feature Interactions (by mean absolute SHAP interaction):")
-    for idx, (feat1, feat2, strength) in enumerate(interactions_sorted, 1):
-        logging.info(f"  {idx}. {feat1} <-> {feat2}: {strength:.6f}")
 
     logging.info("SHAP analysis for Random Forest completed.")
 

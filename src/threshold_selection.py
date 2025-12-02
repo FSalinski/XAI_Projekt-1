@@ -52,25 +52,55 @@ def main():
     sns.set_style("whitegrid")
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
     logging.info("=" * 50)
-    p = load_model(CALIBRATED_LR_MODEL_PATH).predict_proba(X_test)[:, 1]
-    thrs, costs, details = sweep_costs(y_test, p, n=201)
-    best_idx = int(np.argmin(costs))
-    best_thr = float(thrs[best_idx])
-    best_tp, best_fp, best_fn, best_tn = details[best_idx]
+    logging.info("Finding optimal thresholds for both models")
+    
+    # Logistic Regression
+    logging.info("\n--- Logistic Regression ---")
+    lr_model = load_model(CALIBRATED_LR_MODEL_PATH)
+    p_lr = lr_model.predict_proba(X_test)[:, 1]
+    thrs_lr, costs_lr, details_lr = sweep_costs(y_test, p_lr, n=201)
+    best_idx_lr = int(np.argmin(costs_lr))
+    best_thr_lr = float(thrs_lr[best_idx_lr])
+    best_tp_lr, best_fp_lr, best_fn_lr, best_tn_lr = details_lr[best_idx_lr]
 
     plt.figure()
-    plt.plot(thrs, costs)
-    plt.title("Krzywa kosztu vs próg")
+    plt.plot(thrs_lr, costs_lr)
+    plt.title("Krzywa kosztu vs próg - Regresja Logistyczna")
     plt.xlabel("Próg")
     plt.ylabel("Koszt (niżej lepiej)")
-    # save plot
     plt.savefig(f"{PLOTS_PATH}/cost_curve_lr.png")
     plt.close()
 
-    logging.info(f"Najlepszy próg: {best_thr}")
-    logging.info(f"TP, FP, FN, TN: {best_tp}, {best_fp}, {best_fn}, {best_tn}")
-    accept_rate = (best_tn + best_fn) / len(y_test)
-    logging.info(f"Stopa akceptacji przy najlepszym progu: {accept_rate:.4f}")
+    logging.info(f"Najlepszy próg LR: {best_thr_lr:.4f}")
+    logging.info(f"TP, FP, FN, TN: {best_tp_lr}, {best_fp_lr}, {best_fn_lr}, {best_tn_lr}")
+    accept_rate_lr = (best_tn_lr + best_fn_lr) / len(y_test)
+    logging.info(f"Stopa akceptacji przy najlepszym progu: {accept_rate_lr:.4f}")
+    
+    # Random Forest
+    logging.info("\n--- Random Forest ---")
+    rf_model = load_model(CALIBRATED_RF_MODEL_PATH)
+    p_rf = rf_model.predict_proba(X_test)[:, 1]
+    thrs_rf, costs_rf, details_rf = sweep_costs(y_test, p_rf, n=201)
+    best_idx_rf = int(np.argmin(costs_rf))
+    best_thr_rf = float(thrs_rf[best_idx_rf])
+    best_tp_rf, best_fp_rf, best_fn_rf, best_tn_rf = details_rf[best_idx_rf]
+
+    plt.figure()
+    plt.plot(thrs_rf, costs_rf)
+    plt.title("Krzywa kosztu vs próg - Las Losowy")
+    plt.xlabel("Próg")
+    plt.ylabel("Koszt (niżej lepiej)")
+    plt.savefig(f"{PLOTS_PATH}/cost_curve_rf.png")
+    plt.close()
+
+    logging.info(f"Najlepszy próg RF: {best_thr_rf:.4f}")
+    logging.info(f"TP, FP, FN, TN: {best_tp_rf}, {best_fp_rf}, {best_fn_rf}, {best_tn_rf}")
+    accept_rate_rf = (best_tn_rf + best_fn_rf) / len(y_test)
+    logging.info(f"Stopa akceptacji przy najlepszym progu: {accept_rate_rf:.4f}")
+    
+    logging.info("=" * 50)
+    
+    return best_thr_lr, best_thr_rf
 
 
 if __name__ == "__main__":
