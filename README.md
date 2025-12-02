@@ -182,6 +182,28 @@ Poniżej przedstawiamy optymalizowane hiperparametry razem z zakresami, krótkim
 | `imputer_strategy` | ['mean', 'median'] | Strategia imputacji brakujących wartości | median |
 | `add_indicator` | [True, False] | Czy dodać kolumny wskaźnikowe dla brakujących wartości | True |
 
+### Wyniki modeli po tuningu
+
+Po optymalizacji hiperparametrów, modele zostały przetestowane na zbiorach treningowym i testowym:
+
+**Regresja logistyczna:**
+
+| Zbiór | ROC AUC | PR AUC | KS | Log Loss |
+|-------|---------|--------|-------|----------|
+| Train | 0.8229 | 0.2769 | 0.5021 | 0.1853 |
+| Test | 0.7096 | 0.1712 | 0.3343 | 0.2097 |
+
+**Las losowy:**
+
+| Zbiór | ROC AUC | PR AUC | KS | Log Loss |
+|-------|---------|--------|-------|----------|
+| Train | 0.8154 | 0.3449 | 0.4759 | 0.1890 |
+| Test | 0.7376 | 0.1786 | 0.4125 | 0.2048 |
+
+Las losowy osiągnął lepsze wyniki na zbiorze testowym (ROC AUC: 0.7376 vs 0.7096), co sugeruje lepszą zdolność generalizacji. Dodatkowo, wyższe wartości PR AUC i KS wskazują na lepszą wydajność w klasyfikacji klasy mniejszościowej (defaultów).
+
+Oba modele wykazują niewielkie oznaki **przetrenowania** (różnica ROC AUC między train a test: ~0.11 dla LR, ~0.08 dla RF), jednak różnice te są akceptowalne i typowe dla zadań predykcyjnych na niezbalansowanych zbiorach. Las losowy, mimo większej złożoności, wykazuje lepszą generalizację dzięki mechanizmom regularyzacji (`max_depth=3`, `min_samples_leaf=5`) znalezionym podczas optymalizacji.
+
 ---
 
 ## Kalibracja
@@ -341,6 +363,7 @@ W ramach projektu opracowaliśmy kompleksowy system oceny ryzyka kredytowego dla
 - **Las losowy** osiągnął lepsze wyniki predykcyjne (AUC = 0.7832) w porównaniu do regresji logistycznej (AUC = 0.7303), różnica ~5 punktów procentowych
 - Oba modele wymagały kalibracji sigmoid do uzyskania dobrze skalibrowanych prawdopodobieństw, szczególnie istotnych w zastosowaniach kredytowych
 - Optymalizacja bayesowska (Optuna) z 400 próbami skutecznie znalazła optymalne hiperparametry dla obu modeli
+- **Niezbalansowanie klas** (6% defaultów) stanowiło istotne wyzwanie - mimo testowania `class_weight='balanced'`, dla obu modeli optymalizacja Optuna wybrała `class_weight=None`, co sugeruje, że w tym przypadku balansowanie wag pogarsza ogólną wydajność mierzoną przez AUC
 
 ### Optymalizacja biznesowa
 
