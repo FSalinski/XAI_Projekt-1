@@ -3,6 +3,12 @@ Main module for the project
 '''
 
 import logging
+import sys
+from pathlib import Path
+
+# Add src directory to Python path
+src_path = Path(__file__).parent / 'src'
+sys.path.insert(0, str(src_path))
 
 
 SKIP_HYPERPARAMETER_TUNING = True # Whether to skip time-consuming hyperparameter tuning and use pre-trained models saved in the 'models/' directory.
@@ -43,6 +49,9 @@ def main():
     # Step 9: SHAP analysis
     import shap_analysis
     shap_analysis.main()
+    logging.info("=" * 50)
+    logging.info("Main module completed")
+    logging.info("=" * 50)
 
 
 if __name__ == "__main__":
