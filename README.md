@@ -66,7 +66,8 @@ XAI_Projekt-1/
 │   ├── calibration.py             # Kalibracja modeli
 │   ├── threshold_selection.py     # Dobór optymalnego progu
 │   ├── confusion_matrices.py      # Generowanie macierzy pomyłek
-│   └── shap_analysis.py           # Analiza SHAP
+│   ├── shap_analysis.py           # Analiza SHAP
+│   └── pd_rating_mapping.py       # Mapowanie PD na ratingi
 │
 ├── notebooks/                     # Jupyter notebooks
 │   ├── eda.ipynb                  # Eksploracyjna analiza danych
@@ -101,6 +102,7 @@ XAI_Projekt-1/
 6. **Calibration**: `calibration.py`
 7. **Threshold Selection**: `threshold_selection.py`, `confusion_matrices.py`
 8. **Explainability**: `shap_analysis.py`
+9. **PD to Rating Mapping**: `pd_rating_mapping.py`
 
 ---
 
@@ -268,12 +270,95 @@ W celu lepszego wyjaśnienia działania modeli, narysowaliśmy wykresy SHAP dla 
 
 ### Przykładowe wyjaśnienia lokalne
 
-...
+Dla lepszego zrozumienia lokalnych predykcji wygenerowaliśmy wykresy waterfall dla trzech charakterystycznych obserwacji z każdego modelu:
 
-## Dostosowanie progu decyzyjnego
+#### Regresja logistyczna
 
-Ostatnim etapem tworzenia modelu było dostosowanie
+**Wysoka predykcja prawdopodobieństwa defaultu:**
+![LR Waterfall - High](plots/shap/lr_shap_waterfall_high_prob_default.png)
+
+**Średnia predykcja prawdopodobieństwa defaultu:**
+![LR Waterfall - Medium](plots/shap/lr_shap_waterfall_medium_prob_default.png)
+
+**Niska predykcja prawdopodobieństwa defaultu:**
+![LR Waterfall - Low](plots/shap/lr_shap_waterfall_low_prob_default.png)
+
+#### Las losowy
+
+**Wysoka predykcja prawdopodobieństwa defaultu:**
+![RF Waterfall - High](plots/shap/rf_shap_waterfall_high_prob_default.png)
+
+**Średnia predykcja prawdopodobieństwa defaultu:**
+![RF Waterfall - Medium](plots/shap/rf_shap_waterfall_medium_prob_default.png)
+
+**Niska predykcja prawdopodobieństwa defaultu:**
+![RF Waterfall - Low](plots/shap/rf_shap_waterfall_low_prob_default.png)
+
+Wykresy waterfall pokazują, jak poszczególne cechy wpływają na zmianę predykcji od wartości bazowej (expected value) do finalnej predykcji dla danej obserwacji. Cechy pchające predykcję w górę (w kierunku defaultu) są zaznaczone na czerwono, a cechy zmniejszające ryzyko defaultu - na niebiesko.
+
+---
 
 ## Mapowanie PD na ratingi
 
+Ostatnim krokiem analizy było zmapowanie predykowanych prawdopodobieństw defaultu (PD) na standardowe kategorie ratingowe. Zastosowaliśmy typową skalę ratingową opartą na progach PD:
+
+| Rating | Zakres PD | Opis |
+|--------|-----------|------|
+| AAA | 0.00% - 0.03% | Wyjątkowo silna zdolność kredytowa |
+| AA | 0.03% - 0.10% | Bardzo silna zdolność kredytowa |
+| A | 0.10% - 0.40% | Silna zdolność kredytowa |
+| BBB | 0.40% - 1.50% | Wystarczająca zdolność kredytowa |
+| BB | 1.50% - 6.00% | Spekulacyjna, podwyższone ryzyko |
+| B | 6.00% - 20.00% | Wysoce spekulacyjna |
+| CCC | 20.00% - 50.00% | Istotne ryzyko defaultu |
+| CC | 50.00% - 80.00% | Bardzo wysokie ryzyko defaultu |
+| C | 80.00% - 100.00% | Bliski defaultu |
+
+### Rozkład ratingów
+
+![Rozkład ratingów](plots/rating_distribution.png)
+
+### Faktyczna stopa defaultu według ratingów
+
+Poniższy wykres pokazuje, jak dobrze przypisane ratingi odpowiadają rzeczywistej stopie defaultu w każdej kategorii:
+
+![Stopa defaultu wg ratingu](plots/rating_default_rates.png)
+
+Wykresy pokazują, że:
+- **Regresja logistyczna** przypisuje większość klientów do kategorii BB (spekulacyjna), co odpowiada ogólnemu profilowi ryzyka portfela
+- **Las losowy** jest bardziej konserwatywny, przypisując więcej klientów do kategorii B (wysoce spekulacyjna)
+- Oba modele wykazują monotoniczny wzrost faktycznej stopy defaultu wraz ze spadkiem ratingu, co potwierdza poprawność mapowania
+
+---
+
 ## Wnioski
+
+W ramach projektu opracowaliśmy kompleksowy system oceny ryzyka kredytowego dla klientów korporacyjnych, porównując dwa podejścia: interpretowalne (regresja logistyczna) i typu black-box (las losowy). Kluczowe wnioski:
+
+### Wydajność modeli
+
+- **Las losowy** osiągnął lepsze wyniki predykcyjne (AUC = 0.7832) w porównaniu do regresji logistycznej (AUC = 0.7303), co potwierdza przewagę modeli zespołowych w zadaniach klasyfikacyjnych
+- Oba modele wymagały kalibracji sigmoid do uzyskania dobrze skalibrowanych prawdopodobieństw, szczególnie istotnych w zastosowaniach kredytowych
+- Optymalizacja bayesowska (Optuna) z 400 próbami skutecznie znalazła optymalne hiperparametry dla obu modeli
+
+### Optymalizacja biznesowa
+
+- Dobór optymalnego progu decyzyjnego oparty na funkcji kosztu biznesowego prowadzi do bardzo różnych strategii:
+  - **Regresja logistyczna**: wyższy próg (0.1250) → liberalna polityka kredytowa (92.78% akceptacji)
+  - **Las losowy**: niższy próg (0.0650) → restrykcyjna polityka kredytowa (80.56% akceptacji)
+- Wybór między modelami zależy od apetytu na ryzyko banku: LR generuje więcej zysku ale akceptuje wyższe ryzyko nieuchwyconych defaultów (39 FN), RF jest bezpieczniejszy ale odrzuca więcej potencjalnie dobrych klientów (145 FP)
+
+### Interpretowalność
+
+- Analiza SHAP ujawniła kluczowe czynniki ryzyka kredytowego:
+  - **Struktura kapitału**: `formaWlasnosci_Symbol`, `wsk_pokrycie_aktywow_tr_kapitalem_st`, `wsk_mnoznik_kap_wl`, `wsk_kapital_do_aktywa`
+  - **Zadłużenie**: `wsk_zadluzenia`, `wsk_zast_kapitalu_obcego`, `wsk_zadluzenie_kap_wlasnego`
+  - **Rentowność**: `wsk_s_ROE`, `wsk_ROE`, `wsk_ROE_brutto`, `wsk_rent_operacyjna_aktywow`
+  - **Płynność**: `Srodki_pieniezne`, `wsk_plynnosc_szybka_2`, `wsk_pokrycie_wyd_fin_gotowkowe_1`
+- Wykresy waterfall dla poszczególnych obserwacji pokazują, jak konkretne cechy wpływają na indywidualne decyzje kredytowe, co jest kluczowe dla wyjaśnialności wobec klientów i regulatorów
+- Mapowanie PD na ratingi potwierdza spójność modeli: faktyczna stopa defaultu rośnie monotonicznie wraz ze spadkiem ratingu
+
+### Rekomendacje
+
+1. **Dla środowiska produkcyjnego**: Las losowy ze względu na lepszą wydajność predykcyjną, ale z dodatkowymi narzędziami wyjaśnialności (SHAP)
+2. **Dla zastosowań wymagających pełnej transparentności**: Regresja logistyczna jako model bazowy z możliwością bezpośredniej interpretacji współczynników

@@ -49,6 +49,9 @@ def main():
     # Step 9: SHAP analysis
     import shap_analysis
     shap_analysis.main()
+    # Step 10: PD to Rating mapping
+    import pd_rating_mapping
+    pd_rating_mapping.main()
     logging.info("=" * 50)
     logging.info("Main module completed")
     logging.info("=" * 50)
