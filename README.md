@@ -262,6 +262,7 @@ W celu lepszego wyjaśnienia działania modeli, narysowaliśmy wykresy SHAP dla 
 
 ![Shap LR values](plots/shap/lr_shap_bar.png)
 ![Shap LR beeswarm](plots/shap/lr_shap_beeswarm.png)
+Na powyższym wykresie wyraźnie widać zastosowany mocny capping zmiennych numerycznych.
 
 ### Wyjaśnienia globalne dla lasu losowego
 
@@ -337,7 +338,7 @@ W ramach projektu opracowaliśmy kompleksowy system oceny ryzyka kredytowego dla
 
 ### Wydajność modeli
 
-- **Las losowy** osiągnął lepsze wyniki predykcyjne (AUC = 0.7832) w porównaniu do regresji logistycznej (AUC = 0.7303), co potwierdza przewagę modeli zespołowych w zadaniach klasyfikacyjnych
+- **Las losowy** osiągnął lepsze wyniki predykcyjne (AUC = 0.7832) w porównaniu do regresji logistycznej (AUC = 0.7303), różnica ~5 punktów procentowych
 - Oba modele wymagały kalibracji sigmoid do uzyskania dobrze skalibrowanych prawdopodobieństw, szczególnie istotnych w zastosowaniach kredytowych
 - Optymalizacja bayesowska (Optuna) z 400 próbami skutecznie znalazła optymalne hiperparametry dla obu modeli
 
